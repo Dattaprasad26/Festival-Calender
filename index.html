@@ -1,0 +1,3118 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Swarnotsav • Master Festival & Mahotsav Calendar (2020–2050)</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gold: {
+              50: '#FFFDF5', 100: '#FEF8E2', 200: '#FDECB4', 300: '#FBDD82',
+              400: '#F5C444', 500: '#C9A227', 600: '#A88316', 700: '#85640D',
+              800: '#5C4409', 900: '#3D2D06', 950: '#261B02'
+            },
+            maroon: {
+              50: '#FDF2F2', 100: '#FCE4E4', 200: '#F8C8C8', 300: '#F19E9E',
+              400: '#E46666', 500: '#9B1C1C', 600: '#7F1D1D', 700: '#5C0E0E',
+              800: '#420808', 900: '#2A0606', 950: '#190303'
+            },
+            cream: '#FAF6EE',
+            ivory: '#FFFEFA',
+            charcoal: '#141414'
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
+            hindi: ['"Tiro Devanagari Hindi"', 'serif']
+          },
+          boxShadow: {
+            lux: '0 12px 36px -8px rgba(201,162,39,0.3)',
+            glow: '0 0 20px rgba(201,162,39,0.35)',
+            deep: '0 15px 35px -5px rgba(26,5,5,0.45)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">
+  
+  <!-- Chart.js for analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    * { -webkit-tap-highlight-color: transparent; }
+    body {
+      background: #FAF6EE;
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      color: #1A1A1A;
+      overflow-x: hidden;
+    }
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #85640D 0%, #C9A227 30%, #F5E6B8 55%, #C9A227 80%, #705206 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .gold-btn-bg {
+      background: linear-gradient(135deg, #85640D 0%, #C9A227 45%, #E8C547 60%, #A88316 100%);
+    }
+    .gold-border-gradient {
+      border-image: linear-gradient(to right, #85640D, #C9A227, #F5E6B8, #C9A227, #85640D) 1;
+    }
+    .pattern-bg {
+      background-image: radial-gradient(circle at 1.5px 1.5px, rgba(201, 162, 39, 0.14) 1px, transparent 0);
+      background-size: 26px 26px;
+    }
+    .card-master {
+      background: #FFFFFF;
+      border: 1px solid rgba(201, 162, 39, 0.22);
+      border-radius: 1.25rem;
+      box-shadow: 0 4px 20px -4px rgba(42, 6, 6, 0.06);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .card-master:hover {
+      border-color: rgba(201, 162, 39, 0.45);
+      box-shadow: 0 12px 30px -6px rgba(201, 162, 39, 0.25);
+    }
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.7rem 0.95rem;
+      border-radius: 0.85rem;
+      color: #E6D5B8;
+      font-weight: 600;
+      font-size: 0.86rem;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+    }
+    .nav-btn:hover {
+      background: rgba(201, 162, 39, 0.16);
+      color: #FFF9E6;
+    }
+    .nav-btn.active {
+      background: linear-gradient(135deg, rgba(201, 162, 39, 0.3), rgba(201, 162, 39, 0.12));
+      border: 1px solid rgba(201, 162, 39, 0.45);
+      color: #FFF2C6;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+    }
+    .cal-cell {
+      min-height: 112px;
+      background: #FFFFFF;
+      border: 1px solid #EFE5CD;
+      border-radius: 0.85rem;
+      padding: 0.4rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .cal-cell:hover {
+      border-color: #C9A227;
+      box-shadow: 0 6px 18px -4px rgba(201,162,39,0.35);
+      z-index: 2;
+    }
+    .cal-cell.today {
+      background: linear-gradient(180deg, #FFFCF2 0%, #FFF5D6 100%);
+      border: 2px solid #C9A227;
+      box-shadow: 0 0 0 3px rgba(201,162,39,0.2);
+    }
+    .cal-cell.other-month {
+      background: #F8F4EA;
+      opacity: 0.55;
+    }
+    .event-chip {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 6px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      line-height: 1.4;
+      border-left: 3.5px solid currentColor;
+      transition: transform 0.15s;
+    }
+    .event-chip:hover {
+      transform: scale(1.02);
+    }
+    .status-badge {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 2px 7px;
+      border-radius: 9999px;
+    }
+    .status-Verified { background: #ECFDF5; color: #047857; border: 1px solid #A7F3D0; }
+    .status-Tentative { background: #FFFBEB; color: #B45309; border: 1px dashed #FCD34D; }
+    .status-Required { background: #FEF2F2; color: #B91C1C; border: 1px solid #FECACA; }
+    
+    .modal-backdrop {
+      background: rgba(22, 4, 4, 0.72);
+      backdrop-filter: blur(8px);
+    }
+    .modal-sheet {
+      animation: sheetIn 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes sheetIn {
+      from { opacity: 0; transform: translateY(24px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .gold-bar {
+      height: 4px;
+      background: linear-gradient(90deg, #420808 0%, #C9A227 25%, #FFF2C6 50%, #C9A227 75%, #420808 100%);
+    }
+    ::-webkit-scrollbar { width: 7px; height: 7px; }
+    ::-webkit-scrollbar-track { background: #FAF6EE; }
+    ::-webkit-scrollbar-thumb { background: #C9A227; border-radius: 4px; }
+  </style>
+</head>
+<body class="pattern-bg min-h-screen flex flex-col">
+
+  <!-- Top Accent Ribbon -->
+  <div class="gold-bar"></div>
+
+  <!-- MASTER TOP HEADER -->
+  <header class="sticky top-0 z-40 bg-ivory/95 backdrop-blur-xl border-b border-gold-500/25 shadow-sm">
+    <div class="max-w-[1580px] mx-auto px-3.5 sm:px-6 py-2.5 flex items-center justify-between gap-3">
+      
+      <!-- Logo & Master Brand -->
+      <div class="flex items-center gap-3 cursor-pointer" onclick="navigate('dashboard')">
+        <div class="w-11 h-11 rounded-2xl gold-btn-bg flex items-center justify-center text-maroon-950 font-serif font-black text-xl shadow-lux border border-gold-300">
+          卐
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-serif font-extrabold text-xl tracking-tight text-maroon-900 leading-none">Swarn<span class="gold-gradient-text">otsav</span></span>
+            <span class="bg-maroon-900 text-gold-300 text-[10px] font-bold px-2 py-0.5 rounded-md tracking-widest uppercase">Master 2050</span>
+          </div>
+          <div class="text-[10px] tracking-[0.2em] font-bold text-gold-700 uppercase mt-0.5">
+            Central Festival & Mahotsav Architecture • Jewellery Retail
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Global Search -->
+      <div class="hidden md:flex flex-1 max-w-md relative mx-4">
+        <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gold-600" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input id="masterSearch" oninput="handleMasterSearch(this.value)" placeholder="Search any festival (e.g., Diwali, Akshaya Tritiya, 2029)..." class="w-full pl-10 pr-4 py-2 text-xs font-semibold rounded-xl border border-gold-500/30 bg-white/90 focus:border-gold-500 focus:ring-2 focus:ring-gold-400/20 shadow-sm transition">
+      </div>
+
+      <!-- Year Selector & Global Master Controls -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Master Year Slider/Selector -->
+        <div class="flex items-center bg-maroon-950 rounded-xl p-1 border border-gold-500/40 shadow-md">
+          <button onclick="changeYearDelta(-1)" class="w-7 h-7 flex items-center justify-center text-gold-300 hover:text-white hover:bg-white/10 rounded-lg text-sm font-bold transition">‹</button>
+          <div class="relative px-1">
+            <select id="globalYearSelect" onchange="setGlobalYear(parseInt(this.value))" class="bg-transparent text-gold-100 font-serif font-bold text-sm sm:text-base px-1.5 py-0.5 cursor-pointer outline-none [&>option]:bg-maroon-950 [&>option]:text-gold-100">
+              <!-- Dynamically populated from 2020 to 2050 -->
+            </select>
+          </div>
+          <button onclick="changeYearDelta(1)" class="w-7 h-7 flex items-center justify-center text-gold-300 hover:text-white hover:bg-white/10 rounded-lg text-sm font-bold transition">›</button>
+        </div>
+
+        <!-- Reminders Bell with Counter -->
+        <button onclick="navigate('reminders')" class="relative p-2 rounded-xl bg-white border border-gold-500/30 text-maroon-800 hover:border-gold-500 hover:shadow-lux transition" title="Reminders Center">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 01-3.4 0"/></svg>
+          <span id="headerRemBadge" class="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] px-1 bg-red-600 text-white rounded-full text-[10px] font-black flex items-center justify-center">0</span>
+        </button>
+
+        <!-- New Festival Action -->
+        <button onclick="openFestivalModal()" class="gold-btn-bg text-maroon-950 font-bold text-xs sm:text-sm px-3 sm:px-4 py-2 rounded-xl shadow-lux hover:brightness-105 active:scale-95 transition flex items-center gap-1.5">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.8" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          <span class="hidden sm:inline">Add Master Festival</span>
+          <span class="sm:hidden">Add</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN APP WRAPPER -->
+  <div class="max-w-[1580px] mx-auto w-full px-3 sm:px-6 py-4 flex-1 flex gap-5">
+    
+    <!-- DESKTOP SIDEBAR -->
+    <aside class="hidden lg:flex flex-col w-[260px] shrink-0 sticky top-[76px] h-[calc(100vh-92px)] rounded-2xl overflow-hidden shadow-deep">
+      <div class="flex-1 bg-gradient-to-b from-maroon-950 via-maroon-900 to-maroon-950 p-4 flex flex-col gap-2 overflow-y-auto border border-gold-500/30">
+        
+        <!-- System Status Badge -->
+        <div class="p-2.5 rounded-xl bg-white/5 border border-gold-500/20 text-center">
+          <div class="text-[9px] font-extrabold tracking-[0.22em] uppercase text-gold-400">CENTRAL SINGLE SOURCE</div>
+          <div class="font-serif text-white font-bold text-sm mt-0.5">Master Calendar Engine</div>
+          <div id="sidebarYearRangeLbl" class="text-[11px] text-gold-200/70 font-semibold mt-0.5">Coverage: 2020 – 2050 (31 Yrs)</div>
+        </div>
+
+        <!-- Navigation items -->
+        <nav class="flex flex-col gap-1 mt-2">
+          <button class="nav-btn active" data-view="dashboard" onclick="navigate('dashboard')">
+            <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+            <span>Master Dashboard</span>
+          </button>
+          <button class="nav-btn" data-view="monthly" onclick="navigate('monthly')">
+            <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            <span>Monthly Grid</span>
+          </button>
+          <button class="nav-btn" data-view="yearly" onclick="navigate('yearly')">
+            <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 13h3M8 17h8"/></svg>
+            <span>Yearly 12-Month</span>
+          </button>
+          <button class="nav-btn" data-view="list" onclick="navigate('list')">
+            <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+            <span>Festival Master Registry</span>
+            <span id="sideFestCount" class="ml-auto text-[10px] bg-gold-500/20 text-gold-300 px-2 py-0.5 rounded-full font-bold">0</span>
+          </button>
+          <button class="nav-btn" data-view="history" onclick="navigate('history')">
+            <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span>Multi-Year History</span>
+          </button>
+          <button class="nav-btn" data-view="planning" onclick="navigate('planning')">
+            <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+            <span>Jewellery Planning Hub</span>
+          </button>
+          <button class="nav-btn" data-view="reminders" onclick="navigate('reminders')">
+            <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 01-3.4 0"/></svg>
+            <span>Reminders Engine</span>
+            <span id="sideRemCount" class="ml-auto text-[10px] bg-red-600 text-white px-2 py-0.5 rounded-full font-bold">0</span>
+          </button>
+          <button class="nav-btn" data-view="newyear" onclick="navigate('newyear')">
+            <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>
+            <span>New Year Setup Wizard</span>
+          </button>
+          <button class="nav-btn" data-view="categories" onclick="navigate('categories')">
+            <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
+            <span>Category Manager</span>
+          </button>
+          <button class="nav-btn" data-view="insights" onclick="navigate('insights')">
+            <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18M7 16l4-4 4 4 5-6"/></svg>
+            <span>Insights & Reports</span>
+          </button>
+        </nav>
+
+        <!-- Category Key Badges Quick Filter -->
+        <div class="mt-auto pt-3 border-t border-gold-500/20">
+          <div class="text-[9px] font-bold tracking-wider text-gold-400 uppercase mb-2">Active Categories</div>
+          <div id="sideCategoryChips" class="flex flex-col gap-1 text-xs">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <div class="text-center text-[10px] text-gold-300/40 pt-2 font-mono">
+          Swarnotsav Central v3.0 • Indexed Keys
+        </div>
+      </div>
+    </aside>
+
+    <!-- CONTENT ROOT -->
+    <main class="flex-1 min-w-0 pb-20 lg:pb-8">
+
+      <!-- ================= 1. MASTER DASHBOARD ================= -->
+      <section id="view-dashboard" class="flex flex-col gap-4">
+        
+        <!-- Hero Banner: Central countdown and Mahotsav spotlight -->
+        <div class="card-master overflow-hidden relative">
+          <div class="relative bg-gradient-to-r from-maroon-950 via-maroon-900 to-maroon-800 p-5 sm:p-7 text-white">
+            <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none font-serif text-[180px] font-black leading-none">
+              ॐ
+            </div>
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
+              <div class="flex-1">
+                <div class="inline-flex items-center gap-2 bg-gold-500/20 border border-gold-400/40 rounded-full px-3 py-1 text-[11px] font-bold text-gold-300 uppercase tracking-widest">
+                  <span class="w-2 h-2 rounded-full bg-gold-400 animate-ping"></span>
+                  Central Master Calendar • Selected Year: <span id="dashHeroYear" class="underline decoration-gold-400">2026</span>
+                </div>
+                <h1 class="font-serif text-2xl sm:text-4xl font-extrabold mt-2 leading-tight text-white">
+                  Jewellery Festival & <span class="gold-gradient-text">Mahotsav Intelligence</span>
+                </h1>
+                <p class="text-gold-100/80 text-xs sm:text-sm mt-1 max-w-2xl">
+                  Unified master records with perpetual keys (<code class="text-gold-300 font-mono">master_festival_key</code>) linking historical bullion demand, marketing campaigns, and advance preparation rules up to 2050.
+                </p>
+                
+                <div id="dashLastYearInsightBox" class="mt-4 flex flex-wrap gap-2 items-center text-xs">
+                  <!-- Injected by JS -->
+                </div>
+              </div>
+
+              <!-- Next Major Mahotsav Countdown Box -->
+              <div class="bg-black/35 backdrop-blur-md border border-gold-400/40 rounded-2xl p-4 sm:p-5 text-center min-w-[280px]">
+                <div class="text-[10px] font-extrabold tracking-widest text-gold-300 uppercase">Next Major Sales Utsav</div>
+                <div id="dashNextFestName" class="font-serif text-xl sm:text-2xl font-bold text-white mt-1">Loading...</div>
+                <div id="dashNextFestDate" class="text-xs font-semibold text-gold-200/90 mt-0.5">—</div>
+                
+                <!-- Countdown timer blocks -->
+                <div id="dashCountdownWrap" class="flex justify-center gap-2 mt-3">
+                  <!-- Digits -->
+                </div>
+
+                <div class="mt-3.5 flex gap-2">
+                  <button onclick="openNextFestivalDetail()" class="flex-1 gold-btn-bg text-maroon-950 text-xs font-bold py-2 rounded-xl shadow hover:brightness-105 transition">
+                    View Master Plan
+                  </button>
+                  <button onclick="navigate('planning')" class="flex-1 bg-white/10 hover:bg-white/20 border border-gold-400/40 text-gold-200 text-xs font-bold py-2 rounded-xl transition">
+                    Check Tasks
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- KPI Metric Row -->
+        <div id="dashKpiRow" class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- 3-Column Action Core -->
+        <div class="grid lg:grid-cols-3 gap-4">
+          
+          <!-- Today's Festivals & Muhurat -->
+          <div class="card-master p-4 sm:p-5 flex flex-col">
+            <div class="flex items-center justify-between pb-3 border-b border-gold-500/20">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-6 rounded-full bg-gold-500 inline-block"></span>
+                <h3 class="font-serif font-bold text-maroon-900 text-base">Today's Shubh Muhurat</h3>
+              </div>
+              <span id="dashTodayDatePill" class="text-[11px] font-bold text-gold-700 bg-gold-100 px-2 py-0.5 rounded-full"></span>
+            </div>
+            <div id="dashTodayEvents" class="flex flex-col gap-2.5 mt-3 flex-1">
+              <!-- JS rendered -->
+            </div>
+          </div>
+
+          <!-- Pending Planning Tasks (Next 30 Days) -->
+          <div class="card-master p-4 sm:p-5 flex flex-col">
+            <div class="flex items-center justify-between pb-3 border-b border-gold-500/20">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-6 rounded-full bg-red-600 inline-block"></span>
+                <h3 class="font-serif font-bold text-maroon-900 text-base">Urgent Jewellery Tasks</h3>
+              </div>
+              <button onclick="navigate('planning')" class="text-xs font-bold text-gold-600 hover:underline">View All →</button>
+            </div>
+            <div id="dashUrgentTasks" class="flex flex-col gap-2.5 mt-3 flex-1">
+              <!-- JS rendered -->
+            </div>
+          </div>
+
+          <!-- Active & Imminent Reminders -->
+          <div class="card-master p-4 sm:p-5 flex flex-col">
+            <div class="flex items-center justify-between pb-3 border-b border-gold-500/20">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-6 rounded-full bg-purple-600 inline-block"></span>
+                <h3 class="font-serif font-bold text-maroon-900 text-base">Advance Reminders</h3>
+              </div>
+              <button onclick="navigate('reminders')" class="text-xs font-bold text-purple-700 hover:underline">Alert Center →</button>
+            </div>
+            <div id="dashUpcomingReminders" class="flex flex-col gap-2.5 mt-3 flex-1">
+              <!-- JS rendered -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 2026-2050 Master Timeline Rail -->
+        <div class="card-master p-4 sm:p-5">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h3 class="font-serif font-bold text-maroon-900 text-lg">Year <span id="dashTimelineYearLbl">2026</span> Festival Sequence</h3>
+              <p class="text-xs text-stone-500">Chronological master roadmap with previous-year variance</p>
+            </div>
+            <button onclick="navigate('yearly')" class="text-xs font-bold text-gold-700 hover:underline">Full 12-Month Grid →</button>
+          </div>
+          <div id="dashTimelineScroller" class="flex gap-3 overflow-x-auto pb-2 pt-1">
+            <!-- Horizontal cards -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ================= 2. MONTHLY CALENDAR (GOOGLE CALENDAR STYLE) ================= -->
+      <section id="view-monthly" class="hidden flex-col gap-3">
+        <!-- Controls Bar -->
+        <div class="card-master p-3 sm:p-4 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <div class="flex items-center bg-maroon-950 text-gold-100 rounded-xl p-1 shadow">
+              <button onclick="changeMonthDelta(-1)" class="w-8 h-8 flex items-center justify-center hover:bg-white/10 rounded-lg text-lg font-bold">‹</button>
+              <div id="monthlyMonthYearLabel" class="font-serif font-bold text-gold-200 px-3 text-sm sm:text-base min-w-[170px] text-center">Month Year</div>
+              <button onclick="changeMonthDelta(1)" class="w-8 h-8 flex items-center justify-center hover:bg-white/10 rounded-lg text-lg font-bold">›</button>
+            </div>
+            <button onclick="jumpToCurrentMonth()" class="px-3.5 py-2 rounded-xl border border-gold-500/40 text-xs font-bold text-maroon-900 hover:bg-gold-50 transition">
+              Today
+            </button>
+          </div>
+
+          <!-- Quick Month Pills -->
+          <div id="monthlyQuickPills" class="hidden xl:flex items-center gap-1 overflow-x-auto">
+            <!-- Jan to Dec -->
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button onclick="openFestivalModal()" class="gold-btn-bg text-maroon-950 text-xs font-bold px-3.5 py-2 rounded-xl shadow hover:brightness-105 transition">
+              + New Festival
+            </button>
+            <button onclick="window.print()" class="px-3 py-2 rounded-xl border border-gold-500/30 text-xs font-bold text-maroon-900 hover:bg-gold-50">
+              🖨 Print
+            </button>
+          </div>
+        </div>
+
+        <!-- Google Calendar Styled Grid -->
+        <div class="card-master p-2.5 sm:p-4">
+          <!-- Weekday Headers -->
+          <div class="grid grid-cols-7 gap-1 sm:gap-2 mb-2">
+            <div class="text-center font-bold text-xs uppercase tracking-wider text-red-800 py-1 bg-red-50/60 rounded-md">Sun</div>
+            <div class="text-center font-bold text-xs uppercase tracking-wider text-maroon-800 py-1 bg-gold-50/40 rounded-md">Mon</div>
+            <div class="text-center font-bold text-xs uppercase tracking-wider text-maroon-800 py-1 bg-gold-50/40 rounded-md">Tue</div>
+            <div class="text-center font-bold text-xs uppercase tracking-wider text-maroon-800 py-1 bg-gold-50/40 rounded-md">Wed</div>
+            <div class="text-center font-bold text-xs uppercase tracking-wider text-maroon-800 py-1 bg-gold-50/40 rounded-md">Thu</div>
+            <div class="text-center font-bold text-xs uppercase tracking-wider text-maroon-800 py-1 bg-gold-50/40 rounded-md">Fri</div>
+            <div class="text-center font-bold text-xs uppercase tracking-wider text-maroon-800 py-1 bg-gold-50/40 rounded-md">Sat</div>
+          </div>
+          
+          <!-- Month Days Grid -->
+          <div id="monthlyGridCells" class="grid grid-cols-7 gap-1 sm:gap-2">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+        <!-- Visual Legend -->
+        <div class="card-master p-3 sm:p-4 flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div class="flex items-center gap-2 font-bold text-maroon-900">
+            <span>Visual Badges:</span>
+            <span class="inline-flex items-center gap-1 bg-emerald-50 text-emerald-800 border border-emerald-300 px-2 py-0.5 rounded-full font-semibold">✓ Verified Date</span>
+            <span class="inline-flex items-center gap-1 bg-amber-50 text-amber-800 border border-amber-300 px-2 py-0.5 rounded-full font-semibold">⚠ Verification Required</span>
+            <span class="inline-flex items-center gap-1 bg-red-50 text-red-800 border border-red-300 px-2 py-0.5 rounded-full font-semibold">🔔 Reminder Active</span>
+            <span class="inline-flex items-center gap-1 bg-gold-100 text-maroon-900 px-2 py-0.5 rounded-full font-semibold">⭐ Muhurat / Peak Day</span>
+          </div>
+          <div class="text-stone-500">
+            Click on any day to add or inspect festivals for that date.
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 3. YEARLY 12-MONTH OVERVIEW (2020–2050) ================= -->
+      <section id="view-yearly" class="hidden flex-col gap-4">
+        <div class="card-master p-4 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 class="font-serif font-bold text-xl text-maroon-900">
+              12-Month Year Overview — <span id="yearlyCurrentYearSpan" class="gold-gradient-text font-black">2026</span>
+            </h2>
+            <p class="text-xs text-stone-500">High-density master layout. Instant multi-year switching up to 2050.</p>
+          </div>
+
+          <!-- Fast decade jumpers -->
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <span class="text-xs font-bold text-stone-500 mr-1">Jump:</span>
+            <button onclick="setGlobalYear(2024)" class="px-2.5 py-1 text-xs font-bold rounded-lg border border-gold-500/30 hover:bg-gold-50">2024</button>
+            <button onclick="setGlobalYear(2025)" class="px-2.5 py-1 text-xs font-bold rounded-lg border border-gold-500/30 hover:bg-gold-50">2025</button>
+            <button onclick="setGlobalYear(2026)" class="px-2.5 py-1 text-xs font-bold rounded-lg gold-btn-bg text-maroon-950 font-bold">2026</button>
+            <button onclick="setGlobalYear(2027)" class="px-2.5 py-1 text-xs font-bold rounded-lg border border-gold-500/30 hover:bg-gold-50">2027</button>
+            <button onclick="setGlobalYear(2030)" class="px-2.5 py-1 text-xs font-bold rounded-lg border border-gold-500/30 hover:bg-gold-50">2030</button>
+            <button onclick="setGlobalYear(2035)" class="px-2.5 py-1 text-xs font-bold rounded-lg border border-gold-500/30 hover:bg-gold-50">2035</button>
+            <button onclick="setGlobalYear(2040)" class="px-2.5 py-1 text-xs font-bold rounded-lg border border-gold-500/30 hover:bg-gold-50">2040</button>
+            <button onclick="setGlobalYear(2050)" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-maroon-900 text-gold-200">2050</button>
+          </div>
+        </div>
+
+        <!-- 12-Month Mini Calendar Matrix -->
+        <div id="yearlyMonthsMatrix" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          <!-- Injected by JS -->
+        </div>
+      </section>
+
+      <!-- ================= 4. MASTER REGISTRY & ADVANCED SEARCH ================= -->
+      <section id="view-list" class="hidden flex-col gap-3">
+        <!-- Search, Filter & Bulk Toolbar -->
+        <div class="card-master p-3.5 sm:p-4 flex flex-col gap-3">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2.5">
+            <div class="lg:col-span-2 relative">
+              <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-gold-600" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+              <input id="listFilterSearch" oninput="applyRegistryFilters()" placeholder="Filter by festival name, key, notes, muhurat..." class="w-full pl-9 pr-3 py-2 text-xs font-semibold rounded-xl border border-gold-500/30 bg-white">
+            </div>
+            
+            <select id="listFilterCategory" onchange="applyRegistryFilters()" class="text-xs font-semibold rounded-xl border border-gold-500/30 bg-white px-3 py-2">
+              <option value="ALL">All Categories</option>
+            </select>
+
+            <select id="listFilterStatus" onchange="applyRegistryFilters()" class="text-xs font-semibold rounded-xl border border-gold-500/30 bg-white px-3 py-2">
+              <option value="ALL">All Verification Status</option>
+              <option value="Verified">Verified Date</option>
+              <option value="Tentative">Tentative / Estimated</option>
+              <option value="Date Verification Required">Date Verification Required</option>
+            </select>
+
+            <select id="listFilterPriority" onchange="applyRegistryFilters()" class="text-xs font-semibold rounded-xl border border-gold-500/30 bg-white px-3 py-2">
+              <option value="ALL">All Priorities</option>
+              <option value="Critical">Critical (Peak Jewellery Revenue)</option>
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+            </select>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-gold-500/15 text-xs">
+            <div class="flex items-center gap-2">
+              <span id="registryCountLbl" class="font-bold text-maroon-900">Showing 0 festivals</span>
+              <span class="text-stone-400">|</span>
+              <span class="text-stone-500">Year: <strong id="registryYearSpan">2026</strong></span>
+            </div>
+            
+            <div class="flex items-center gap-2">
+              <button onclick="exportFestivalsCSV()" class="px-3 py-1.5 rounded-lg border border-gold-500/30 font-bold hover:bg-gold-50 text-maroon-900">
+                ⇩ Export CSV
+              </button>
+              <button onclick="exportFestivalsJSON()" class="px-3 py-1.5 rounded-lg border border-gold-500/30 font-bold hover:bg-gold-50 text-maroon-900">
+                ⇩ Export JSON Backup
+              </button>
+              <button onclick="clearRegistryFilters()" class="text-gold-700 font-bold underline px-1">
+                Reset Filters
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Master List Container -->
+        <div id="masterRegistryList" class="flex flex-col gap-3">
+          <!-- Injected by JS -->
+        </div>
+      </section>
+
+      <!-- ================= 5. FESTIVAL HISTORY & MULTI-YEAR COMPARISON ================= -->
+      <section id="view-history" class="hidden flex-col gap-4">
+        <div class="card-master p-4 sm:p-5">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+            <div>
+              <h2 class="font-serif font-bold text-xl text-maroon-900">Festival History & Date Variance Explorer</h2>
+              <p class="text-xs text-stone-500">Track how festival dates shift across solar/lunar calendars from 2020 through 2050.</p>
+            </div>
+            <div class="w-full md:w-72">
+              <label class="block text-[10px] font-extrabold uppercase tracking-wider text-gold-700 mb-1">Select Permanent Festival Key</label>
+              <select id="historyMasterKeySelect" onchange="renderHistoryTimeline(this.value)" class="w-full text-xs font-bold rounded-xl border border-gold-500/40 bg-white px-3 py-2">
+                <!-- Master keys -->
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- History Overview Card -->
+        <div id="historyDetailHeader" class="card-master p-4 sm:p-5">
+          <!-- Master Header -->
+        </div>
+
+        <!-- Multi-Year Timeline -->
+        <div class="card-master p-4 sm:p-5">
+          <h3 class="font-serif font-bold text-maroon-900 text-lg mb-3">Multi-Year Chronology (2020 – 2050)</h3>
+          <div id="historyChronologyGrid" class="flex flex-col gap-3">
+            <!-- Timeline records -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 6. JEWELLERY PLANNING HUB ================= -->
+      <section id="view-planning" class="hidden flex-col gap-4">
+        <div class="card-master overflow-hidden">
+          <div class="bg-gradient-to-r from-maroon-950 to-maroon-800 p-5 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <div class="text-[10px] font-extrabold tracking-widest text-gold-300 uppercase">Jewellery Retail Readiness</div>
+              <h2 class="font-serif text-2xl font-bold text-white mt-1">12 Standard Industry Planning Workflows</h2>
+              <p class="text-xs text-gold-100/70 mt-1 max-w-xl">
+                Standardised checkpoints for Bullion purchasing, Polki/Kundan collections, VIP preview invitations, WhatsApp broadcasts, and security escort coordination.
+              </p>
+            </div>
+            <div class="flex gap-3 text-center">
+              <div class="bg-white/10 border border-gold-400/30 rounded-2xl px-4 py-2.5">
+                <div id="planStatTotalTasks" class="font-serif text-2xl font-bold text-white">0</div>
+                <div class="text-[9px] font-bold uppercase tracking-wider text-gold-300">Total Tasks</div>
+              </div>
+              <div class="bg-white/10 border border-gold-400/30 rounded-2xl px-4 py-2.5">
+                <div id="planStatCompletedTasks" class="font-serif text-2xl font-bold text-emerald-300">0</div>
+                <div class="text-[9px] font-bold uppercase tracking-wider text-gold-300">Done</div>
+              </div>
+              <div class="bg-white/10 border border-gold-400/30 rounded-2xl px-4 py-2.5">
+                <div id="planStatOverallPct" class="font-serif text-2xl font-bold text-gold-300">0%</div>
+                <div class="text-[9px] font-bold uppercase tracking-wider text-gold-300">Readiness</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Festival-by-Festival Task Matrix -->
+        <div class="flex items-center justify-between px-1">
+          <h3 class="font-serif font-bold text-maroon-900 text-lg">Upcoming Festival Checklists (<span id="planYearSpan">2026</span>)</h3>
+          <span class="text-xs font-semibold text-stone-500">Auto-saved to Central Database</span>
+        </div>
+
+        <div id="planningFestivalsContainer" class="flex flex-col gap-4">
+          <!-- Rendered by JS -->
+        </div>
+      </section>
+
+      <!-- ================= 7. ADVANCE REMINDER ENGINE ================= -->
+      <section id="view-reminders" class="hidden flex-col gap-4">
+        <!-- Reminders Summary KPIs -->
+        <div id="remindersKpiGrid" class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <!-- Injected by JS -->
+        </div>
+
+        <!-- Filter bar -->
+        <div class="card-master p-3.5 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <button onclick="setReminderFilter('ALL')" class="rem-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold gold-btn-bg text-maroon-950" data-f="ALL">All Reminders</button>
+            <button onclick="setReminderFilter('OVERDUE')" class="rem-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-white border border-stone-200 text-red-700" data-f="OVERDUE">🚨 Overdue</button>
+            <button onclick="setReminderFilter('DUE_TODAY')" class="rem-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-white border border-stone-200 text-maroon-900" data-f="DUE_TODAY">Due Today</button>
+            <button onclick="setReminderFilter('NEXT_7')" class="rem-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-white border border-stone-200 text-maroon-900" data-f="NEXT_7">Next 7 Days</button>
+            <button onclick="setReminderFilter('NEXT_30')" class="rem-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-white border border-stone-200 text-maroon-900" data-f="NEXT_30">Next 30 Days</button>
+            <button onclick="setReminderFilter('COMPLETED')" class="rem-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-white border border-stone-200 text-emerald-800" data-f="COMPLETED">✓ Completed</button>
+          </div>
+          <div class="text-xs text-stone-500 font-semibold">
+            Auto-calculates from Festival Start Date (e.g., -90d, -60d, -30d)
+          </div>
+        </div>
+
+        <!-- Reminders List -->
+        <div id="remindersMasterList" class="flex flex-col gap-3">
+          <!-- Injected by JS -->
+        </div>
+      </section>
+
+      <!-- ================= 8. NEW YEAR SETUP WIZARD (UP TO 2050) ================= -->
+      <section id="view-newyear" class="hidden flex-col gap-4">
+        <div class="card-master p-5 sm:p-6 bg-gradient-to-br from-white via-gold-50/40 to-white">
+          <div class="max-w-2xl">
+            <span class="text-[10px] font-extrabold uppercase tracking-widest bg-maroon-900 text-gold-300 px-2.5 py-1 rounded-full">Automation Engine</span>
+            <h2 class="font-serif font-bold text-2xl text-maroon-900 mt-2">Create & Clone New Year Calendar</h2>
+            <p class="text-xs text-stone-600 mt-1">
+              Quickly generate a complete calendar for future years (up to 2050) by copying permanent master festival keys from a previous year. All reminders and task schemas will be reset and linked automatically.
+            </p>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-4 mt-5 p-4 rounded-xl bg-white border border-gold-500/30">
+            <div>
+              <label class="block text-xs font-bold text-maroon-900 uppercase tracking-wider mb-1">Source Year (Template)</label>
+              <select id="wizardSourceYear" class="w-full text-xs font-bold rounded-xl border border-gold-500/40 bg-cream px-3 py-2.5">
+                <!-- 2024, 2025, 2026 -->
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-maroon-900 uppercase tracking-wider mb-1">Target Year to Generate</label>
+              <select id="wizardTargetYear" class="w-full text-xs font-bold rounded-xl border border-gold-500/40 bg-cream px-3 py-2.5">
+                <!-- 2027 to 2050 -->
+              </select>
+            </div>
+          </div>
+
+          <!-- Generation Flags -->
+          <div class="flex flex-col sm:flex-row gap-3 mt-4 text-xs font-semibold text-stone-700">
+            <label class="flex items-center gap-2 cursor-pointer bg-white px-3 py-2 rounded-xl border border-stone-200">
+              <input type="checkbox" id="wizardFlagTasks" checked class="accent-maroon-800 w-4 h-4">
+              <span>Generate 12 Jewellery Planning Tasks (Reset to 0%)</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer bg-white px-3 py-2 rounded-xl border border-stone-200">
+              <input type="checkbox" id="wizardFlagReminders" checked class="accent-maroon-800 w-4 h-4">
+              <span>Recalculate Standard Reminders (-90d, -60d, -30d, -15d, -7d)</span>
+            </label>
+          </div>
+
+          <div class="mt-5 flex items-center gap-3">
+            <button onclick="executeNewYearGeneration()" class="gold-btn-bg text-maroon-950 font-bold text-sm px-6 py-3 rounded-xl shadow-lux hover:brightness-105 active:scale-95 transition">
+              ⚡ Generate Master Calendar for Target Year
+            </button>
+            <button onclick="seedAllYearsUpTo2050()" class="bg-maroon-900 text-gold-200 hover:bg-maroon-800 font-bold text-xs px-4 py-3 rounded-xl transition">
+              🚀 Pre-Seed All Years to 2050 (Astronomical Approximate)
+            </button>
+          </div>
+        </div>
+
+        <!-- Pre-calculated Years Matrix Status -->
+        <div class="card-master p-4 sm:p-5">
+          <h3 class="font-serif font-bold text-maroon-900 text-lg mb-2">Year-wise Master Coverage (2020–2050)</h3>
+          <p class="text-xs text-stone-500 mb-4">Click any year card to inspect or populate.</p>
+          <div id="wizardYearStatusGrid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2.5">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 9. CATEGORY MANAGER ================= -->
+      <section id="view-categories" class="hidden flex-col gap-4">
+        <div class="card-master p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div>
+            <h2 class="font-serif font-bold text-xl text-maroon-900">Master Festival Categories</h2>
+            <p class="text-xs text-stone-500">Configure visual themes, commercial priorities, and badge colors used across the master calendar.</p>
+          </div>
+          <button onclick="openAddCategoryModal()" class="gold-btn-bg text-maroon-950 text-xs font-bold px-4 py-2.5 rounded-xl shadow">
+            + New Category
+          </button>
+        </div>
+
+        <div id="categoryCardsGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+          <!-- Rendered by JS -->
+        </div>
+      </section>
+
+      <!-- ================= 10. INSIGHTS & ANALYTICS ================= -->
+      <section id="view-insights" class="hidden flex-col gap-4">
+        <div class="card-master p-4 sm:p-5 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 class="font-serif font-bold text-xl text-maroon-900">Commercial Intelligence & Seasonality (<span id="insightsYearSpan">2026</span>)</h2>
+            <p class="text-xs text-stone-500">Bullion purchase timelines, marketing readiness curves, and high-revenue festival clusters.</p>
+          </div>
+          <div class="text-xs font-bold text-gold-700 bg-gold-50 border border-gold-300 px-3 py-1.5 rounded-xl">
+            📈 AI Pan-India Festival Demand Model
+          </div>
+        </div>
+
+        <!-- 4 Chart Panels -->
+        <div class="grid lg:grid-cols-2 gap-4">
+          <!-- Monthly Density -->
+          <div class="card-master p-4">
+            <h4 class="font-serif font-bold text-maroon-900 text-sm mb-1">Monthly Festival Clustering</h4>
+            <p class="text-[11px] text-stone-500 mb-3">Identifies peak inventory booking quarters.</p>
+            <div class="h-[250px] relative">
+              <canvas id="chartMonthlyClustering"></canvas>
+            </div>
+          </div>
+
+          <!-- Category Mix -->
+          <div class="card-master p-4">
+            <h4 class="font-serif font-bold text-maroon-900 text-sm mb-1">Event Mix Breakdown</h4>
+            <p class="text-[11px] text-stone-500 mb-3">Religious, Sales Mahotsav, and Regional occasions.</p>
+            <div class="h-[250px] relative flex justify-center">
+              <canvas id="chartCategoryMix"></canvas>
+            </div>
+          </div>
+
+          <!-- Planning Readiness Curve -->
+          <div class="card-master p-4">
+            <h4 class="font-serif font-bold text-maroon-900 text-sm mb-1">Jewellery Planning Completion</h4>
+            <p class="text-[11px] text-stone-500 mb-3">Top upcoming festivals readiness index.</p>
+            <div class="h-[260px] relative">
+              <canvas id="chartPlanningReadiness"></canvas>
+            </div>
+          </div>
+
+          <!-- Revenue Criticality -->
+          <div class="card-master p-4">
+            <h4 class="font-serif font-bold text-maroon-900 text-sm mb-1">Commercial Priority Weightage</h4>
+            <p class="text-[11px] text-stone-500 mb-3">Distribution of Critical vs High revenue events.</p>
+            <div class="h-[260px] relative">
+              <canvas id="chartPriorityWeight"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ================= MOBILE NAVIGATION BAR ================= -->
+  <nav class="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-maroon-950/95 backdrop-blur-xl border-t border-gold-500/30 px-2 py-1.5 flex justify-around items-center">
+    <button onclick="navigate('dashboard')" data-view="dashboard" class="mobile-nav-btn flex flex-col items-center text-gold-300 px-2 py-1">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+      <span class="text-[9px] font-bold mt-0.5">Home</span>
+    </button>
+    <button onclick="navigate('monthly')" data-view="monthly" class="mobile-nav-btn flex flex-col items-center text-gold-200/60 px-2 py-1">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      <span class="text-[9px] font-bold mt-0.5">Month</span>
+    </button>
+    <button onclick="openFestivalModal()" class="w-12 h-12 -mt-6 rounded-full gold-btn-bg text-maroon-950 shadow-lux flex items-center justify-center border-4 border-cream">
+      <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.8" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+    </button>
+    <button onclick="navigate('list')" data-view="list" class="mobile-nav-btn flex flex-col items-center text-gold-200/60 px-2 py-1">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+      <span class="text-[9px] font-bold mt-0.5">Registry</span>
+    </button>
+    <button onclick="navigate('planning')" data-view="planning" class="mobile-nav-btn flex flex-col items-center text-gold-200/60 px-2 py-1">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+      <span class="text-[9px] font-bold mt-0.5">Plan</span>
+    </button>
+  </nav>
+
+  <!-- ================= MODAL: ADD / EDIT MASTER FESTIVAL ================= -->
+  <div id="modalFestival" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 modal-backdrop">
+    <div class="modal-sheet bg-ivory w-full max-w-3xl rounded-2xl shadow-2xl border border-gold-500/40 flex flex-col max-h-[92vh] overflow-hidden">
+      
+      <!-- Modal Header -->
+      <div class="bg-gradient-to-r from-maroon-950 via-maroon-900 to-maroon-800 px-5 py-4 flex items-center justify-between text-white shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl gold-btn-bg text-maroon-950 font-serif font-black text-xl flex items-center justify-center shadow">
+            ✦
+          </div>
+          <div>
+            <h3 id="modalFestTitle" class="font-serif font-bold text-lg leading-tight">Add Master Festival Record</h3>
+            <p class="text-xs text-gold-200/80">Permanent Key Architecture • Multi-Year Linked</p>
+          </div>
+        </div>
+        <button onclick="closeFestivalModal()" class="text-gold-200 hover:text-white text-xl p-1 font-bold">✕</button>
+      </div>
+
+      <!-- Modal Tabs -->
+      <div class="flex items-center gap-2 px-5 pt-3 pb-2 bg-white border-b border-gold-500/20 shrink-0 text-xs font-bold overflow-x-auto">
+        <button onclick="switchModalTab('tab-meta')" class="modal-tab-btn px-3 py-1.5 rounded-lg gold-btn-bg text-maroon-950" data-tab="tab-meta">1. Details & Master Key</button>
+        <button onclick="switchModalTab('tab-rems')" class="modal-tab-btn px-3 py-1.5 rounded-lg bg-stone-100 text-stone-700" data-tab="tab-rems">2. Reminders & Alerts</button>
+        <button onclick="switchModalTab('tab-tasks')" class="modal-tab-btn px-3 py-1.5 rounded-lg bg-stone-100 text-stone-700" data-tab="tab-tasks">3. Jewellery Plan (12 Workflows)</button>
+        <button onclick="switchModalTab('tab-hist')" class="modal-tab-btn px-3 py-1.5 rounded-lg bg-stone-100 text-stone-700" data-tab="tab-hist">4. Previous Years History</button>
+      </div>
+
+      <!-- Modal Scrollable Content -->
+      <div class="p-5 overflow-y-auto flex-1 bg-cream/30 space-y-4">
+        
+        <!-- TAB 1: METADATA & PERMANENT KEY -->
+        <div id="modalTab-meta" class="space-y-4">
+          <div class="grid sm:grid-cols-2 gap-3.5">
+            <div>
+              <label class="block text-[11px] font-extrabold uppercase tracking-wider text-maroon-900 mb-1">Festival / Mahotsav Name *</label>
+              <input id="formFestName" oninput="autoSuggestMasterKey(this.value)" placeholder="e.g. Diwali, Akshaya Tritiya" class="w-full text-xs font-semibold rounded-xl border border-gold-500/40 bg-white px-3.5 py-2.5">
+            </div>
+            <div>
+              <label class="block text-[11px] font-extrabold uppercase tracking-wider text-maroon-900 mb-1">Permanent Master Key * (<code class="text-gold-700">master_festival_key</code>)</label>
+              <input id="formMasterKey" placeholder="e.g. diwali, dhanteras" class="w-full text-xs font-mono font-bold rounded-xl border border-gold-500/40 bg-gold-50/50 px-3.5 py-2.5 text-maroon-900">
+              <span class="text-[10px] text-stone-500 mt-0.5 block">Connects this festival across 2020–2050 even if date changes.</span>
+            </div>
+          </div>
+
+          <div class="grid sm:grid-cols-3 gap-3.5">
+            <div>
+              <label class="block text-[11px] font-extrabold uppercase tracking-wider text-maroon-900 mb-1">Category *</label>
+              <select id="formCategory" class="w-full text-xs font-semibold rounded-xl border border-gold-500/40 bg-white px-3 py-2.5">
+                <!-- Injected -->
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] font-extrabold uppercase tracking-wider text-maroon-900 mb-1">Priority / Revenue Scale</label>
+              <select id="formPriority" class="w-full text-xs font-semibold rounded-xl border border-gold-500/40 bg-white px-3 py-2.5">
+                <option value="Critical">Critical (Peak Jewellery Revenue)</option>
+                <option value="High" selected>High (Major Festivity)</option>
+                <option value="Medium">Medium (Regional / Seasonal)</option>
+                <option value="Low">Low (General Holiday)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] font-extrabold uppercase tracking-wider text-maroon-900 mb-1">Date Status</label>
+              <select id="formDateStatus" class="w-full text-xs font-semibold rounded-xl border border-gold-500/40 bg-white px-3 py-2.5">
+                <option value="Verified">Verified Date (Confirmed Tithi)</option>
+                <option value="Tentative">Tentative / Astronomical Estimate</option>
+                <option value="Date Verification Required">Date Verification Required</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid sm:grid-cols-3 gap-3.5 bg-white p-3.5 rounded-xl border border-gold-500/30">
+            <div>
+              <label class="block text-[11px] font-extrabold uppercase tracking-wider text-maroon-900 mb-1">Start Date *</label>
+              <input id="formStartDate" type="date" onchange="handleStartDateChanged(this.value)" class="w-full text-xs font-bold rounded-xl border border-stone-300 bg-cream/40 px-3 py-2">
+            </div>
+            <div>
+              <label class="block text-[11px] font-extrabold uppercase tracking-wider text-maroon-900 mb-1">End Date (If Multi-Day)</label>
+              <input id="formEndDate" type="date" class="w-full text-xs font-bold rounded-xl border border-stone-300 bg-cream/40 px-3 py-2">
+            </div>
+            <div>
+              <label class="block text-[11px] font-extrabold uppercase tracking-wider text-maroon-900 mb-1">⭐ Peak Muhurat / Sales Day</label>
+              <input id="formMuhuratDate" type="date" class="w-full text-xs font-bold rounded-xl border border-stone-300 bg-cream/40 px-3 py-2">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-extrabold uppercase tracking-wider text-maroon-900 mb-1">Mahotsav Tagline / Special Campaign Name</label>
+            <input id="formMahotsavName" placeholder="e.g. Deepavali Mahotsav 2026, Shubh Vivah Bridal Edit" class="w-full text-xs font-semibold rounded-xl border border-gold-500/40 bg-white px-3.5 py-2.5">
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-extrabold uppercase tracking-wider text-maroon-900 mb-1">Jewellery Strategy Notes & Historical Learnings</label>
+            <textarea id="formNotes" rows="3" placeholder="Target coin weightages, bridal polki discount rules, security guard shifts, last year customer footfall notes..." class="w-full text-xs font-semibold rounded-xl border border-gold-500/40 bg-white p-3"></textarea>
+          </div>
+        </div>
+
+        <!-- TAB 2: REMINDERS & ALERTS -->
+        <div id="modalTab-rems" class="hidden space-y-4">
+          <div class="bg-gold-50 border border-gold-300 p-3 rounded-xl text-xs text-maroon-900">
+            <strong>Automated Reminder Engine:</strong> Notifications are calculated backward from <strong>Start Date</strong>. De-duplication is enforced to prevent overlapping alerts.
+          </div>
+          
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5" id="formRemPresetsContainer">
+            <!-- 90d, 60d, 45d, 30d, 15d, 7d checkboxes -->
+          </div>
+
+          <div class="pt-3 border-t border-gold-500/20">
+            <label class="block text-xs font-bold text-maroon-900 mb-1.5">Add Custom Fixed Date Reminder</label>
+            <div class="flex gap-2">
+              <input id="formCustomRemDate" type="date" class="text-xs font-bold rounded-xl border border-stone-300 bg-white px-3 py-2">
+              <input id="formCustomRemLabel" placeholder="e.g. Catalogue Print Proof Approval" class="flex-1 text-xs font-semibold rounded-xl border border-stone-300 bg-white px-3 py-2">
+              <button onclick="addCustomReminderFormRow()" type="button" class="px-4 py-2 rounded-xl gold-btn-bg text-maroon-950 font-bold text-xs">Add</button>
+            </div>
+            <div id="formCustomRemList" class="mt-2 space-y-1.5"></div>
+          </div>
+        </div>
+
+        <!-- TAB 3: 12 JEWELLERY TASKS -->
+        <div id="modalTab-tasks" class="hidden space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-maroon-900">Standard 12 Workflows</span>
+            <div class="flex gap-2 text-xs font-bold">
+              <button onclick="toggleAllModalTasks(true)" class="text-gold-700 underline">Select All</button>
+              <button onclick="toggleAllModalTasks(false)" class="text-stone-500 underline">Clear All</button>
+            </div>
+          </div>
+          
+          <div id="formTasksContainer" class="grid sm:grid-cols-2 gap-2.5">
+            <!-- 12 Jewellery task rows -->
+          </div>
+        </div>
+
+        <!-- TAB 4: PREVIOUS YEARS HISTORY -->
+        <div id="modalTab-hist" class="hidden space-y-3">
+          <div id="formHistoryContainer">
+            <!-- Rendered automatically based on master_festival_key -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-4 bg-white border-t border-gold-500/25 flex items-center justify-between gap-3 shrink-0">
+        <button id="formBtnDelete" onclick="deleteCurrentFestival()" class="hidden px-4 py-2.5 rounded-xl border border-red-300 text-red-700 font-bold text-xs hover:bg-red-50">
+          Delete
+        </button>
+        <div class="flex-1"></div>
+        <button onclick="closeFestivalModal()" class="px-4 py-2.5 rounded-xl border border-stone-300 font-bold text-xs text-stone-700 hover:bg-stone-50">
+          Cancel
+        </button>
+        <button onclick="saveFestivalRecord()" class="gold-btn-bg text-maroon-950 font-bold text-xs px-6 py-2.5 rounded-xl shadow-lux hover:brightness-105 active:scale-95 transition">
+          💾 Save Master Record
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= MODAL: DETAILED FESTIVAL MASTER CARD ================= -->
+  <div id="modalDetail" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 modal-backdrop">
+    <div class="modal-sheet bg-ivory w-full max-w-2xl rounded-2xl shadow-2xl border border-gold-500/40 flex flex-col max-h-[90vh] overflow-hidden">
+      <div id="detailModalBody" class="overflow-y-auto flex-1">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: DAY DRAWER / DAY INSPECTION ================= -->
+  <div id="modalDayDrawer" class="hidden fixed inset-0 z-50 flex items-center justify-end modal-backdrop">
+    <div class="bg-ivory w-full max-w-md h-full shadow-2xl border-l border-gold-500/30 flex flex-col p-5 overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-gold-500/25">
+        <div>
+          <div class="text-[10px] font-extrabold text-gold-700 uppercase tracking-widest">Day Master View</div>
+          <h3 id="dayDrawerDateLabel" class="font-serif font-bold text-maroon-900 text-lg"></h3>
+        </div>
+        <button onclick="closeDayDrawer()" class="text-maroon-900 text-xl font-bold p-1">✕</button>
+      </div>
+      <div id="dayDrawerContent" class="flex flex-col gap-3 mt-4 flex-1"></div>
+      <button onclick="openFestivalModalForDate()" class="mt-4 w-full gold-btn-bg text-maroon-950 font-bold text-xs py-3 rounded-xl shadow">
+        + Add Festival on this Date
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= TOAST NOTIFICATION CONTAINER ================= -->
+  <div id="toastContainer" class="fixed bottom-16 lg:bottom-6 right-4 z-[90] flex flex-col gap-2"></div>
+
+  <!-- ================= MASTER JAVASCRIPT ENGINE ================= -->
+  <script>
+    /*
+      SWARNOTSAV MASTER FESTIVAL & MAHOTSAV CALENDAR ENGINE
+      - Global & Central (No Branch Dependency)
+      - Permanent master_festival_key
+      - Coverage: 2020 – 2050 (31 Years Full Support)
+      - Multi-year date shifting & astrological variance calculations
+      - 12 Standard Jewellery Retail Tasks
+    */
+
+    const STORAGE_KEY = 'swarnotsav_master_festivals_2050_v3';
+    const CATEGORIES_KEY = 'swarnotsav_categories_v3';
+
+    // 1. STANDARD 12 JEWELLERY RETAIL WORKFLOWS
+    const STANDARD_JEWELLERY_TASKS = [
+      { id: 't1', label: 'Bullion & Gold Coin Inventory Procurement', role: 'Buying / Bullion Desk', defaultDaysBefore: 45 },
+      { id: 't2', label: 'Bridal & High-Value Jewellery Edit Finalisation', role: 'Merchandising', defaultDaysBefore: 40 },
+      { id: 't3', label: 'Lightweight & Daily-Wear Gifting Stock Stocking', role: 'Inventory Team', defaultDaysBefore: 30 },
+      { id: 't4', label: 'Print Catalogue, Lookbook & Rate Card Readiness', role: 'Marketing', defaultDaysBefore: 25 },
+      { id: 't5', label: 'Social Media & Influencer Campaign Launch', role: 'Digital Media', defaultDaysBefore: 20 },
+      { id: 't6', label: 'WhatsApp & SMS Broadcast to HNI / Loyalty VIPs', role: 'CRM', defaultDaysBefore: 14 },
+      { id: 't7', label: 'Store Lighting, Floral Decor & Window Visuals', role: 'Operations', defaultDaysBefore: 7 },
+      { id: 't8', label: 'Special Making-Charge / Cashback Offer Activation', role: 'Pricing Committee', defaultDaysBefore: 7 },
+      { id: 't9', label: 'Sales Staff Training & Product Knowledge Briefing', role: 'HR & Store Manager', defaultDaysBefore: 5 },
+      { id: 't10', label: 'Customer Advance Token & Pre-Booking Desks Setup', role: 'Floor Manager', defaultDaysBefore: 4 },
+      { id: 't11', label: 'Cash Escort, Vault Logistics & Armed Security', role: 'Security & Admin', defaultDaysBefore: 3 },
+      { id: 't12', label: 'Snacks, Traditional Prasad & Guest Welcome Kit', role: 'Hospitality', defaultDaysBefore: 2 }
+    ];
+
+    // 2. DEFAULT CATEGORIES
+    const DEFAULT_CATEGORIES = {
+      "Mahotsav": { name: "Mahotsav", color: "#7C3AED", bg: "#F3E8FF", border: "#C084FC", desc: "Flagship Mega Multi-Day Jewellery Festivals" },
+      "Sales Opportunity": { name: "Sales Opportunity", color: "#059669", bg: "#ECFDF5", border: "#6EE7B7", desc: "Key Bullion & Gold Buying Occasions" },
+      "Festival": { name: "Festival", color: "#D97706", bg: "#FFFBEB", border: "#FCD34D", desc: "Traditional Indian Cultural Celebrations" },
+      "Jewellery Event": { name: "Jewellery Event", color: "#85640D", bg: "#FFF9E6", border: "#E8C547", desc: "Exclusive Showroom Edits & Gem Shows" },
+      "Religious Event": { name: "Religious Event", color: "#DC2626", bg: "#FEF2F2", border: "#FCA5A5", desc: "Auspicious Tithis, Muhurats & Pojas" },
+      "Regional Festival": { name: "Regional Festival", color: "#0D9488", bg: "#F0FDFA", border: "#5EEAD4", desc: "State & Community Specific Milestones" },
+      "National Holiday": { name: "National Holiday", color: "#2563EB", bg: "#EFF6FF", border: "#93C5FD", desc: "National Celebrations & Bank Holidays" }
+    };
+
+    // 3. MASTER FESTIVAL ASTRONOMICAL DATE SEEDS (2024 to 2030 exact + formulaic model up to 2050)
+    // Every entry uses permanent master_festival_key
+    const MASTER_SEED_DEFINITIONS = [
+      {
+        key: 'makar_sankranti',
+        name: 'Makar Sankranti',
+        mahotsav: 'Uttarayan Swarn Mahotsav',
+        category: 'Festival',
+        priority: 'High',
+        dates: {
+          2024: '2024-01-15', 2025: '2025-01-14', 2026: '2026-01-14', 2027: '2027-01-15',
+          2028: '2028-01-15', 2029: '2029-01-14', 2030: '2030-01-14'
+        },
+        notes: 'Gifting pendants and 1g gold coins see high volume.'
+      },
+      {
+        key: 'vasant_panchami',
+        name: 'Vasant Panchami',
+        mahotsav: 'Saraswati Shringaar Utsav',
+        category: 'Religious Event',
+        priority: 'Medium',
+        dates: {
+          2024: '2024-02-14', 2025: '2025-02-02', 2026: '2026-01-23', 2027: '2027-02-11',
+          2028: '2028-01-31', 2029: '2029-01-20', 2030: '2030-02-08'
+        },
+        notes: 'Yellow sapphire and yellow gold collection focus.'
+      },
+      {
+        key: 'maha_shivratri',
+        name: 'Maha Shivratri',
+        mahotsav: 'Rudraksha & Gold Mahotsav',
+        category: 'Religious Event',
+        priority: 'High',
+        dates: {
+          2024: '2024-03-08', 2025: '2025-02-26', 2026: '2026-02-15', 2027: '2027-03-06',
+          2028: '2028-02-23', 2029: '2029-03-13', 2030: '2030-03-03'
+        },
+        notes: 'Silver thalis, bilva patra in silver and gold rudraksha malas.'
+      },
+      {
+        key: 'holi',
+        name: 'Holi',
+        mahotsav: 'Rangotsav Fine Enamel Edit',
+        category: 'Festival',
+        priority: 'High',
+        dates: {
+          2024: '2024-03-25', 2025: '2025-03-14', 2026: '2026-03-04', 2027: '2027-03-22',
+          2028: '2028-03-11', 2029: '2029-03-01', 2030: '2030-03-20'
+        },
+        notes: 'Meenakari enamel jewellery and colorful gemstone launch.'
+      },
+      {
+        key: 'gudi_padwa',
+        name: 'Gudi Padwa',
+        mahotsav: 'Nav Varsh Swarn Mahotsav',
+        category: 'Regional Festival',
+        priority: 'Critical',
+        dates: {
+          2024: '2024-04-09', 2025: '2025-03-30', 2026: '2026-03-19', 2027: '2027-04-07',
+          2028: '2028-03-27', 2029: '2029-04-14', 2030: '2030-04-03'
+        },
+        notes: 'Maharashtrian wedding jewellery, Thushi necklaces & Kolhapuri saaj.'
+      },
+      {
+        key: 'ugadi',
+        name: 'Ugadi',
+        mahotsav: 'Dakshin Nav Varsh Utsav',
+        category: 'Regional Festival',
+        priority: 'High',
+        dates: {
+          2024: '2024-04-09', 2025: '2025-03-30', 2026: '2026-03-19', 2027: '2027-04-07',
+          2028: '2028-03-27', 2029: '2029-04-14', 2030: '2030-04-03'
+        },
+        notes: 'Temple gold jewellery and Kasu mala promotion.'
+      },
+      {
+        key: 'akshaya_tritiya',
+        name: 'Akshaya Tritiya',
+        mahotsav: 'Akshaya Swarn Mahotsav (Mega Revenue Day)',
+        category: 'Sales Opportunity',
+        priority: 'Critical',
+        dates: {
+          2024: '2024-05-10', 2025: '2025-04-30', 2026: '2026-04-19', 2027: '2027-05-09',
+          2028: '2028-04-27', 2029: '2029-04-16', 2030: '2030-05-05'
+        },
+        notes: 'Highest bullion & coin day. Pre-booking must start 30 days prior. Keep 2g/5g/10g coins boxed.'
+      },
+      {
+        key: 'rath_yatra',
+        name: 'Rath Yatra',
+        mahotsav: 'Jagannath Rath Utsav',
+        category: 'Religious Event',
+        priority: 'Medium',
+        dates: {
+          2024: '2024-07-07', 2025: '2025-06-27', 2026: '2026-07-16', 2027: '2027-07-05',
+          2028: '2028-06-24', 2029: '2029-07-13', 2030: '2030-07-02'
+        },
+        notes: 'Silver idols and filigree jewellery.'
+      },
+      {
+        key: 'raksha_bandhan',
+        name: 'Raksha Bandhan',
+        mahotsav: 'Swarn Rakhi & Gifting Mela',
+        category: 'Festival',
+        priority: 'High',
+        dates: {
+          2024: '2024-08-19', 2025: '2025-08-09', 2026: '2026-08-28', 2027: '2027-08-17',
+          2028: '2028-08-05', 2029: '2029-08-24', 2030: '2030-08-13'
+        },
+        notes: 'Gold and 925 silver rakhis with coin combo packs.'
+      },
+      {
+        key: 'janmashtami',
+        name: 'Janmashtami',
+        mahotsav: 'Shri Krishna Balgopal Swarn Utsav',
+        category: 'Religious Event',
+        priority: 'High',
+        dates: {
+          2024: '2024-08-26', 2025: '2025-08-16', 2026: '2026-09-04', 2027: '2027-08-25',
+          2028: '2028-08-13', 2029: '2029-09-01', 2030: '2030-08-21'
+        },
+        notes: 'Gold flute pendants, silver swings (jhula) and peacock feather brooches.'
+      },
+      {
+        key: 'ganesh_chaturthi',
+        name: 'Ganesh Chaturthi',
+        mahotsav: 'Ganeshotsav 10-Day Mahotsav',
+        category: 'Mahotsav',
+        priority: 'Critical',
+        dates: {
+          2024: '2024-09-07', 2025: '2025-08-27', 2026: '2026-09-14', 2027: '2027-09-04',
+          2028: '2028-08-24', 2029: '2029-09-11', 2030: '2030-09-01'
+        },
+        endDateDelta: 9,
+        notes: 'Silver modaks, durva grass motifs, and Ganesh gold coins.'
+      },
+      {
+        key: 'navratri_begins',
+        name: 'Navratri Begins (Ghatasthapana)',
+        mahotsav: 'Navratri Garba & Kundan Mahotsav',
+        category: 'Mahotsav',
+        priority: 'Critical',
+        dates: {
+          2024: '2024-10-03', 2025: '2025-09-22', 2026: '2026-10-11', 2027: '2027-09-30',
+          2028: '2028-10-18', 2029: '2029-10-08', 2030: '2029-09-27'
+        },
+        endDateDelta: 8,
+        notes: '9 days of oxidised silver & kundan sets. Very strong youth walk-in.'
+      },
+      {
+        key: 'dussehra',
+        name: 'Dussehra (Vijayadashami)',
+        mahotsav: 'Vijay Utsav Shubh Shagun',
+        category: 'Festival',
+        priority: 'Critical',
+        dates: {
+          2024: '2024-10-12', 2025: '2025-10-02', 2026: '2026-10-20', 2027: '2027-10-09',
+          2028: '2028-10-27', 2029: '2029-10-17', 2030: '2030-10-06'
+        },
+        notes: 'Shastra pooja gold purchases, vehicle delivery gold tokens.'
+      },
+      {
+        key: 'karva_chauth',
+        name: 'Karva Chauth',
+        mahotsav: 'Suhagan Solah Shringaar Edit',
+        category: 'Festival',
+        priority: 'High',
+        dates: {
+          2024: '2024-10-20', 2025: '2025-10-10', 2026: '2026-10-29', 2027: '2027-10-19',
+          2028: '2028-10-07', 2029: '2029-10-26', 2030: '2030-10-15'
+        },
+        notes: 'Mangalsutra collection reveal, diamond solitaires and diamond rings.'
+      },
+      {
+        key: 'dhanteras',
+        name: 'Dhanteras',
+        mahotsav: 'Dhanteras Mega Bullion & Diamond Mahotsav',
+        category: 'Sales Opportunity',
+        priority: 'Critical',
+        dates: {
+          2024: '2024-10-29', 2025: '2025-10-18', 2026: '2026-11-06', 2027: '2027-10-27',
+          2028: '2028-11-14', 2029: '2029-11-03', 2030: '2030-10-24'
+        },
+        notes: 'Biggest retail turnover day of the entire fiscal year. Backup servers and extra counters mandatory.'
+      },
+      {
+        key: 'diwali',
+        name: 'Diwali (Lakshmi Pujan)',
+        mahotsav: 'Deepotsav Swarn Mahotsav',
+        category: 'Festival',
+        priority: 'Critical',
+        dates: {
+          2024: '2024-10-31', 2025: '2025-10-20', 2026: '2026-11-08', 2027: '2027-10-29',
+          2028: '2028-11-16', 2029: '2029-11-05', 2030: '2030-10-26'
+        },
+        notes: 'Lakshmi-Ganesh silver & gold idols, corporate coin gifting sets.'
+      },
+      {
+        key: 'bhai_dooj',
+        name: 'Bhai Dooj',
+        mahotsav: 'Bhratri Shringaar Gifting',
+        category: 'Festival',
+        priority: 'Medium',
+        dates: {
+          2024: '2024-11-03', 2025: '2025-10-23', 2026: '2026-11-11', 2027: '2027-11-01',
+          2028: '2028-11-18', 2029: '2029-11-07', 2030: '2030-10-28'
+        }
+      },
+      {
+        key: 'wedding_season_launch',
+        name: 'Winter Bridal Jewellery Showcase',
+        mahotsav: 'Royal Vivah Polki Showcase',
+        category: 'Jewellery Event',
+        priority: 'Critical',
+        dates: {
+          2024: '2024-11-18', 2025: '2025-11-15', 2026: '2026-11-20', 2027: '2027-11-18',
+          2028: '2028-11-22', 2029: '2029-11-20', 2030: '2030-11-18'
+        },
+        notes: 'High-ticket Polki, Jadau and Solitaire necklaces bookings.'
+      },
+      {
+        key: 'christmas_carnival',
+        name: 'Year-End Diamond Carnival',
+        mahotsav: 'Winter Solitaire & Diamond Gala',
+        category: 'Jewellery Event',
+        priority: 'High',
+        dates: {
+          2024: '2024-12-25', 2025: '2025-12-25', 2026: '2026-12-25', 2027: '2027-12-25',
+          2028: '2028-12-25', 2029: '2029-12-25', 2030: '2030-12-25'
+        },
+        notes: 'Diamond making charge discounts and cocktail rings.'
+      }
+    ];
+
+    // APPLICATION STATE
+    let AppState = {
+      currentView: 'dashboard',
+      selectedYear: new Date().getFullYear(),
+      selectedMonth: new Date().getMonth(), // 0 to 11
+      festivals: [],
+      categories: {},
+      filterSearch: '',
+      filterCategory: 'ALL',
+      filterStatus: 'ALL',
+      filterPriority: 'ALL',
+      remFilter: 'ALL',
+      editingFestivalId: null,
+      customRemFormList: [],
+      dayDrawerDate: null
+    };
+
+    // UTILITIES
+    const pad2 = n => String(n).padStart(2, '0');
+    const toISODate = d => `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+    const getTodayISO = () => toISODate(new Date());
+
+    function parseISODate(s) {
+      if (!s) return null;
+      const parts = s.split('-');
+      if (parts.length !== 3) return null;
+      return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+    }
+
+    function formatDateDisplay(iso) {
+      const d = parseISODate(iso);
+      if (!d) return '—';
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      return `${pad2(d.getDate())} ${months[d.getMonth()]} ${d.getFullYear()}`;
+    }
+
+    function formatShortDate(iso) {
+      const d = parseISODate(iso);
+      if (!d) return '—';
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      return `${pad2(d.getDate())} ${months[d.getMonth()]}`;
+    }
+
+    function daysDifference(iso1, iso2) {
+      const d1 = parseISODate(iso1);
+      const d2 = parseISODate(iso2);
+      if (!d1 || !d2) return 0;
+      return Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
+    }
+
+    function addDaysToISO(iso, days) {
+      const d = parseISODate(iso);
+      if (!d) return iso;
+      d.setDate(d.getDate() + days);
+      return toISODate(d);
+    }
+
+    function slugifyKey(str) {
+      return (str || '')
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, '_')
+        .replace(/^_+|_+$/g, '');
+    }
+
+    function showToast(msg, isSuccess = true) {
+      const box = document.getElementById('toastContainer');
+      const el = document.createElement('div');
+      el.className = `p-3.5 rounded-xl shadow-2xl text-xs font-bold border transition-all duration-300 flex items-center gap-2 text-white ${
+        isSuccess ? 'bg-maroon-900 border-gold-400' : 'bg-red-800 border-red-300'
+      }`;
+      el.innerHTML = `<span>${isSuccess ? '✨' : '⚠️'}</span> <span>${msg}</span>`;
+      box.appendChild(el);
+      setTimeout(() => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(10px)';
+        setTimeout(() => el.remove(), 350);
+      }, 3500);
+    }
+
+    // 4. DATABASE INITIALISATION & SEEDING ENGINE
+    function initDatabase() {
+      // Load Categories
+      const storedCats = localStorage.getItem(CATEGORIES_KEY);
+      if (storedCats) {
+        try { AppState.categories = JSON.parse(storedCats); } catch(e) { AppState.categories = DEFAULT_CATEGORIES; }
+      } else {
+        AppState.categories = DEFAULT_CATEGORIES;
+        localStorage.setItem(CATEGORIES_KEY, JSON.stringify(AppState.categories));
+      }
+
+      // Load Festivals
+      const storedFests = localStorage.getItem(STORAGE_KEY);
+      if (storedFests) {
+        try {
+          AppState.festivals = JSON.parse(storedFests);
+        } catch(e) {
+          AppState.festivals = buildInitialSeedData();
+          saveFestivals();
+        }
+      } else {
+        AppState.festivals = buildInitialSeedData();
+        saveFestivals();
+      }
+
+      // Populate Global Year Selector from 2020 to 2050
+      populateYearDropdowns();
+    }
+
+    function saveFestivals() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(AppState.festivals));
+    }
+
+    function buildInitialSeedData() {
+      const list = [];
+      const years = [2024, 2025, 2026, 2027, 2028, 2029, 2030];
+
+      MASTER_SEED_DEFINITIONS.forEach(def => {
+        years.forEach(yr => {
+          let sDate = def.dates[yr];
+          // If date not directly in table, estimate based on lunar offset
+          if (!sDate) {
+            const base2026 = parseISODate(def.dates[2026] || '2026-10-15');
+            const offset = (yr - 2026) * 365 + ((yr % 4 === 0) ? 1 : 0);
+            const est = new Date(base2026.getTime() + offset * 86400000);
+            sDate = toISODate(est);
+          }
+
+          const eDate = def.endDateDelta ? addDaysToISO(sDate, def.endDateDelta) : sDate;
+          const status = (yr <= 2026) ? 'Verified' : 'Tentative';
+
+          // Standard tasks
+          const isPast = daysDifference(getTodayISO(), sDate) < 0;
+          const tasks = STANDARD_JEWELLERY_TASKS.map((t, idx) => ({
+            id: `task_${def.key}_${yr}_${idx}`,
+            templateId: t.id,
+            label: t.label,
+            role: t.role,
+            done: isPast || (yr === 2026 && idx < 3),
+            dueDate: addDaysToISO(sDate, -t.defaultDaysBefore),
+            notes: ''
+          }));
+
+          // Reminders (e.g. 90, 60, 30, 15, 7, 1 days before)
+          const remDays = (def.priority === 'Critical') ? [90, 60, 30, 15, 7, 1] : [60, 30, 7, 1];
+          const reminders = remDays.map(d => ({
+            id: `rem_${def.key}_${yr}_${d}`,
+            daysBefore: d,
+            customDate: null,
+            label: `${d} Days Advance Alert`,
+            done: isPast || (daysDifference(getTodayISO(), addDaysToISO(sDate, -d)) < 0)
+          }));
+
+          list.push({
+            id: `fest_${def.key}_${yr}`,
+            master_festival_key: def.key,
+            year: yr,
+            name: def.name,
+            mahotsav: def.mahotsav || '',
+            category: def.category,
+            priority: def.priority,
+            dateStatus: status,
+            startDate: sDate,
+            endDate: eDate,
+            muhuratDate: sDate,
+            notes: def.notes || '',
+            tasks: tasks,
+            reminders: reminders,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+          });
+        });
+      });
+
+      return list;
+    }
+
+    function populateYearDropdowns() {
+      const selects = [
+        document.getElementById('globalYearSelect'),
+        document.getElementById('wizardSourceYear'),
+        document.getElementById('wizardTargetYear')
+      ];
+
+      selects.forEach(sel => {
+        if (!sel) return;
+        sel.innerHTML = '';
+        for (let y = 2020; y <= 2050; y++) {
+          const opt = document.createElement('option');
+          opt.value = y;
+          opt.textContent = `Year ${y}`;
+          if (sel.id === 'globalYearSelect' && y === AppState.selectedYear) opt.selected = true;
+          if (sel.id === 'wizardSourceYear' && y === AppState.selectedYear) opt.selected = true;
+          if (sel.id === 'wizardTargetYear' && y === AppState.selectedYear + 1) opt.selected = true;
+          sel.appendChild(opt);
+        }
+      });
+    }
+
+    // 5. VIEW NAVIGATION CONTROLLER
+    function navigate(viewName) {
+      AppState.currentView = viewName;
+      const views = ['dashboard','monthly','yearly','list','history','planning','reminders','newyear','categories','insights'];
+      
+      views.forEach(v => {
+        const el = document.getElementById(`view-${v}`);
+        if (!el) return;
+        if (v === viewName) {
+          el.classList.remove('hidden');
+          el.classList.add('flex');
+        } else {
+          el.classList.add('hidden');
+          el.classList.remove('flex');
+        }
+      });
+
+      // Update Desktop Nav
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.view === viewName);
+      });
+
+      // Update Mobile Nav
+      document.querySelectorAll('.mobile-nav-btn').forEach(btn => {
+        const on = btn.dataset.view === viewName;
+        btn.classList.toggle('text-gold-300', on);
+        btn.classList.toggle('text-gold-200/60', !on);
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      renderCurrentView();
+    }
+
+    function setGlobalYear(yr) {
+      AppState.selectedYear = parseInt(yr);
+      const sel = document.getElementById('globalYearSelect');
+      if (sel) sel.value = AppState.selectedYear;
+      renderCurrentView();
+      showToast(`Switched Master Calendar to Year ${yr}`);
+    }
+
+    function changeYearDelta(delta) {
+      let target = AppState.selectedYear + delta;
+      if (target < 2020) target = 2020;
+      if (target > 2050) target = 2050;
+      setGlobalYear(target);
+    }
+
+    function renderCurrentView() {
+      updateHeaderBadges();
+      renderSidebarCategoryChips();
+
+      switch(AppState.currentView) {
+        case 'dashboard': renderDashboard(); break;
+        case 'monthly': renderMonthlyCalendar(); break;
+        case 'yearly': renderYearlyCalendar(); break;
+        case 'list': renderMasterRegistry(); break;
+        case 'history': renderHistoryExplorer(); break;
+        case 'planning': renderPlanningHub(); break;
+        case 'reminders': renderRemindersEngine(); break;
+        case 'newyear': renderNewYearWizard(); break;
+        case 'categories': renderCategoryManager(); break;
+        case 'insights': renderInsightsView(); break;
+      }
+    }
+
+    // 6. MASTER DASHBOARD RENDERER
+    function renderDashboard() {
+      const yr = AppState.selectedYear;
+      document.getElementById('dashHeroYear').textContent = yr;
+      document.getElementById('dashTimelineYearLbl').textContent = yr;
+      document.getElementById('dashTodayDatePill').textContent = formatDateDisplay(getTodayISO());
+
+      const yearFests = AppState.festivals.filter(f => f.year === yr).sort((a,b) => a.startDate.localeCompare(b.startDate));
+      const todayISO = getTodayISO();
+
+      // Next Major Upcoming Festival
+      const upcoming = yearFests.filter(f => f.startDate >= todayISO);
+      const nextMajor = upcoming[0] || yearFests[0] || null;
+
+      if (nextMajor) {
+        document.getElementById('dashNextFestName').textContent = nextMajor.name;
+        document.getElementById('dashNextFestDate').textContent = `${formatDateDisplay(nextMajor.startDate)} • ${nextMajor.category}`;
+        
+        // Days difference countdown
+        const diff = daysDifference(todayISO, nextMajor.startDate);
+        const cdWrap = document.getElementById('dashCountdownWrap');
+        cdWrap.innerHTML = `
+          <div class="bg-maroon-950/80 border border-gold-400/40 rounded-xl px-3 py-1.5 min-w-[54px]">
+            <div class="font-serif font-black text-xl text-gold-200">${Math.max(0, diff)}</div>
+            <div class="text-[8px] font-bold tracking-widest text-gold-400 uppercase">Days Left</div>
+          </div>
+          <div class="bg-maroon-950/80 border border-gold-400/40 rounded-xl px-3 py-1.5 min-w-[54px]">
+            <div class="font-serif font-black text-xl text-gold-200">${pad2(new Date().getHours())}</div>
+            <div class="text-[8px] font-bold tracking-widest text-gold-400 uppercase">Hours</div>
+          </div>
+          <div class="bg-maroon-950/80 border border-gold-400/40 rounded-xl px-3 py-1.5 min-w-[54px]">
+            <div class="font-serif font-black text-xl text-gold-200">${nextMajor.priority.toUpperCase()}</div>
+            <div class="text-[8px] font-bold tracking-widest text-gold-400 uppercase">Scale</div>
+          </div>
+        `;
+
+        // Previous Year Variance Insight
+        const prevFest = AppState.festivals.find(f => f.master_festival_key === nextMajor.master_festival_key && f.year === yr - 1);
+        const histBox = document.getElementById('dashLastYearInsightBox');
+        if (prevFest) {
+          const shift = daysDifference(prevFest.startDate, nextMajor.startDate);
+          const shiftTxt = shift === 365 ? 'Exact same solar date' : (shift > 365 ? `+${shift - 365}d solar shift` : `${shift - 365}d solar shift`);
+          histBox.innerHTML = `
+            <span class="bg-gold-500/20 border border-gold-400/40 px-3 py-1 rounded-full text-gold-200 font-semibold">
+              🕰 Last Year (${yr - 1}): was on <strong>${formatDateDisplay(prevFest.startDate)}</strong> (${shiftTxt})
+            </span>
+            <span class="bg-white/10 px-3 py-1 rounded-full text-gold-100">
+              Key: <code class="font-mono text-gold-300 font-bold">${nextMajor.master_festival_key}</code>
+            </span>
+          `;
+        } else {
+          histBox.innerHTML = `<span class="bg-white/10 px-3 py-1 rounded-full text-gold-200">First recorded entry for master key: <strong class="font-mono text-gold-300">${nextMajor.master_festival_key}</strong></span>`;
+        }
+      }
+
+      // KPI Metric Row
+      const criticalCount = yearFests.filter(f => f.priority === 'Critical').length;
+      const verifiedCount = yearFests.filter(f => f.dateStatus === 'Verified').length;
+      const allTasks = yearFests.flatMap(f => f.tasks || []);
+      const completedTasks = allTasks.filter(t => t.done).length;
+      const readyPct = allTasks.length ? Math.round((completedTasks / allTasks.length) * 100) : 100;
+
+      const kpiData = [
+        { label: 'Master Festivals', val: yearFests.length, sub: `Active in ${yr}`, icon: '👑', color: 'from-amber-50 to-gold-100' },
+        { label: 'Critical Revenue Days', val: criticalCount, sub: 'Bullion & Bridal Peak', icon: '💰', color: 'from-purple-50 to-pink-50' },
+        { label: 'Date Verified', val: `${verifiedCount}/${yearFests.length}`, sub: 'Panchang / Tithi Sync', icon: '✓', color: 'from-emerald-50 to-teal-50' },
+        { label: 'Jewellery Tasks', val: `${completedTasks}/${allTasks.length}`, sub: `${readyPct}% Completed`, icon: '📋', color: 'from-blue-50 to-indigo-50' },
+        { label: 'Coverage Reach', val: '2020-2050', sub: '31 Years Supported', icon: '🪐', color: 'from-amber-50 to-orange-50' },
+        { label: 'System Mode', val: 'Central', sub: 'Single Master Source', icon: '🛡️', color: 'from-red-50 to-maroon-50' }
+      ];
+
+      document.getElementById('dashKpiRow').innerHTML = kpiData.map(k => `
+        <div class="card-master p-3.5 bg-gradient-to-br ${k.color}">
+          <div class="flex items-center justify-between">
+            <span class="text-[9px] font-extrabold uppercase tracking-widest text-stone-500">${k.label}</span>
+            <span class="text-base">${k.icon}</span>
+          </div>
+          <div class="font-serif font-black text-maroon-900 text-lg sm:text-xl mt-1">${k.val}</div>
+          <div class="text-[10px] font-semibold text-stone-500 mt-0.5">${k.sub}</div>
+        </div>
+      `).join('');
+
+      // Today's Muhurat / Events
+      const todayEvents = AppState.festivals.filter(f => f.startDate <= todayISO && (f.endDate || f.startDate) >= todayISO);
+      const todayBox = document.getElementById('dashTodayEvents');
+      if (todayEvents.length > 0) {
+        todayBox.innerHTML = todayEvents.map(f => `
+          <div onclick="openFestivalDetail('${f.id}')" class="p-3 rounded-xl border border-gold-400/50 bg-gold-50/60 cursor-pointer hover:bg-gold-100 transition">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-black text-maroon-900">${f.name}</span>
+              <span class="status-badge status-${f.dateStatus.replace(/\s+/g,'')}">${f.dateStatus}</span>
+            </div>
+            <div class="text-[11px] font-semibold text-gold-800 mt-0.5">${f.mahotsav || f.category}</div>
+            <div class="text-[10px] text-stone-500 mt-1 line-clamp-1">${f.notes || 'Auspicious Muhurat today.'}</div>
+          </div>
+        `).join('');
+      } else {
+        todayBox.innerHTML = `
+          <div class="p-5 text-center text-stone-400 text-xs flex flex-col items-center justify-center flex-1">
+            <span class="text-2xl mb-1">🪔</span>
+            <span>No major festival scheduled on today's calendar date.</span>
+            <button onclick="openFestivalModalForDate('${todayISO}')" class="mt-2 text-gold-700 font-bold underline">+ Schedule Event Today</button>
+          </div>
+        `;
+      }
+
+      // Urgent Jewellery Tasks
+      const pendingTasks = [];
+      yearFests.forEach(f => {
+        (f.tasks || []).forEach(t => {
+          if (!t.done) {
+            pendingTasks.push({ fest: f, task: t, diff: daysDifference(todayISO, t.dueDate || f.startDate) });
+          }
+        });
+      });
+      pendingTasks.sort((a,b) => a.diff - b.diff);
+
+      const taskBox = document.getElementById('dashUrgentTasks');
+      if (pendingTasks.length > 0) {
+        taskBox.innerHTML = pendingTasks.slice(0, 4).map(item => `
+          <div onclick="openFestivalDetail('${item.fest.id}')" class="p-2.5 rounded-xl border border-stone-200 bg-white hover:border-gold-400 cursor-pointer transition flex items-center justify-between gap-2">
+            <div class="min-w-0">
+              <div class="text-xs font-bold text-maroon-900 truncate">${item.task.label}</div>
+              <div class="text-[10px] text-stone-500 font-semibold">${item.fest.name} • Due: ${item.task.dueDate ? formatShortDate(item.task.dueDate) : 'Immediate'}</div>
+            </div>
+            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-md ${item.diff < 0 ? 'bg-red-100 text-red-700' : 'bg-gold-100 text-maroon-900'} shrink-0">
+              ${item.diff < 0 ? `${Math.abs(item.diff)}d Overdue` : `in ${item.diff}d`}
+            </span>
+          </div>
+        `).join('');
+      } else {
+        taskBox.innerHTML = `
+          <div class="p-5 text-center text-emerald-700 text-xs font-bold flex flex-col items-center justify-center flex-1">
+            <span class="text-2xl mb-1">✅</span>
+            <span>All jewellery retail tasks are up-to-date!</span>
+          </div>
+        `;
+      }
+
+      // Upcoming Reminders
+      const activeRems = [];
+      yearFests.forEach(f => {
+        (f.reminders || []).forEach(r => {
+          const remDate = r.customDate || addDaysToISO(f.startDate, -r.daysBefore);
+          const dDiff = daysDifference(todayISO, remDate);
+          if (!r.done && dDiff <= 30) {
+            activeRems.push({ fest: f, rem: r, remDate, dDiff });
+          }
+        });
+      });
+      activeRems.sort((a,b) => a.dDiff - b.dDiff);
+
+      const remBox = document.getElementById('dashUpcomingReminders');
+      if (activeRems.length > 0) {
+        remBox.innerHTML = activeRems.slice(0, 4).map(item => `
+          <div onclick="openFestivalDetail('${item.fest.id}')" class="p-2.5 rounded-xl border border-purple-200 bg-purple-50/40 hover:bg-purple-50 cursor-pointer transition flex items-center justify-between gap-2">
+            <div class="min-w-0">
+              <div class="text-xs font-bold text-maroon-900 truncate">${item.fest.name}</div>
+              <div class="text-[10px] text-purple-800 font-medium">${item.rem.label} (Alert Date: ${formatShortDate(item.remDate)})</div>
+            </div>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-purple-200 text-purple-900 shrink-0">
+              ${item.dDiff === 0 ? 'TODAY' : item.dDiff < 0 ? `${Math.abs(item.dDiff)}d ago` : `in ${item.dDiff}d`}
+            </span>
+          </div>
+        `).join('');
+      } else {
+        remBox.innerHTML = `
+          <div class="p-5 text-center text-stone-400 text-xs flex flex-col items-center justify-center flex-1">
+            <span class="text-2xl mb-1">🔔</span>
+            <span>No alerts due in next 30 days.</span>
+          </div>
+        `;
+      }
+
+      // Sequence Timeline Scroller
+      const scroller = document.getElementById('dashTimelineScroller');
+      scroller.innerHTML = yearFests.map(f => {
+        const cat = AppState.categories[f.category] || DEFAULT_CATEGORIES.Festival;
+        const diff = daysDifference(todayISO, f.startDate);
+        return `
+          <div onclick="openFestivalDetail('${f.id}')" class="min-w-[190px] max-w-[190px] p-3 rounded-2xl border border-gold-500/30 bg-white hover:shadow-lux hover:-translate-y-1 transition cursor-pointer flex flex-col justify-between shrink-0" style="border-left: 4px solid ${cat.color};">
+            <div>
+              <div class="text-[9px] font-extrabold uppercase tracking-wider" style="color:${cat.color}">${f.category}</div>
+              <div class="font-serif font-bold text-sm text-maroon-900 mt-0.5 line-clamp-1">${f.name}</div>
+              <div class="text-[11px] font-semibold text-gold-700 mt-1">${formatDateDisplay(f.startDate)}</div>
+            </div>
+            <div class="mt-3 flex items-center justify-between pt-2 border-t border-stone-100 text-[10px]">
+              <span class="font-bold ${diff === 0 ? 'text-red-700' : diff > 0 ? 'text-stone-600' : 'text-stone-400'}">
+                ${diff === 0 ? '● TODAY' : diff > 0 ? `in ${diff}d` : `${Math.abs(diff)}d ago`}
+              </span>
+              <span class="status-badge status-${f.dateStatus.replace(/\s+/g,'')}">${f.dateStatus}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // 7. GOOGLE-CALENDAR STYLE MONTHLY VIEW
+    function renderMonthlyCalendar() {
+      const yr = AppState.selectedYear;
+      const mo = AppState.selectedMonth;
+      const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+      document.getElementById('monthlyMonthYearLabel').textContent = `${monthNames[mo]} ${yr}`;
+
+      // Quick month switcher pills
+      const pillsContainer = document.getElementById('monthlyQuickPills');
+      pillsContainer.innerHTML = monthNames.map((name, idx) => `
+        <button onclick="setMonthlyMonth(${idx})" class="px-2.5 py-1 rounded-lg text-xs font-bold transition ${
+          idx === mo ? 'gold-btn-bg text-maroon-950 shadow' : 'text-stone-600 hover:bg-gold-50'
+        }">${name.slice(0,3)}</button>
+      `).join('');
+
+      // Build Calendar Grid (Sun to Sat)
+      const firstDayOfMonth = new Date(yr, mo, 1).getDay();
+      const daysInCurrentMonth = new Date(yr, mo + 1, 0).getDate();
+      const daysInPrevMonth = new Date(yr, mo, 0).getDate();
+
+      const totalCells = Math.ceil((firstDayOfMonth + daysInCurrentMonth) / 7) * 7;
+      const cellsContainer = document.getElementById('monthlyGridCells');
+      cellsContainer.innerHTML = '';
+
+      const todayISO = getTodayISO();
+
+      for (let i = 0; i < totalCells; i++) {
+        let cellDateISO = '';
+        let isOtherMonth = false;
+        let dayNumber = 0;
+
+        if (i < firstDayOfMonth) {
+          // Prev Month Days
+          dayNumber = daysInPrevMonth - firstDayOfMonth + i + 1;
+          const pMonth = (mo === 0) ? 11 : mo - 1;
+          const pYear = (mo === 0) ? yr - 1 : yr;
+          cellDateISO = `${pYear}-${pad2(pMonth + 1)}-${pad2(dayNumber)}`;
+          isOtherMonth = true;
+        } else if (i >= firstDayOfMonth + daysInCurrentMonth) {
+          // Next Month Days
+          dayNumber = i - (firstDayOfMonth + daysInCurrentMonth) + 1;
+          const nMonth = (mo === 11) ? 0 : mo + 1;
+          const nYear = (mo === 11) ? yr + 1 : yr;
+          cellDateISO = `${nYear}-${pad2(nMonth + 1)}-${pad2(dayNumber)}`;
+          isOtherMonth = true;
+        } else {
+          // Current Month Days
+          dayNumber = i - firstDayOfMonth + 1;
+          cellDateISO = `${yr}-${pad2(mo + 1)}-${pad2(dayNumber)}`;
+        }
+
+        // Find festivals covering this date
+        const dayFestivals = AppState.festivals.filter(f => 
+          f.startDate <= cellDateISO && (f.endDate || f.startDate) >= cellDateISO
+        );
+
+        // Find active reminders on this date
+        const dayReminders = [];
+        AppState.festivals.forEach(f => {
+          (f.reminders || []).forEach(r => {
+            const rDate = r.customDate || addDaysToISO(f.startDate, -r.daysBefore);
+            if (rDate === cellDateISO && !r.done) dayReminders.push({ fest: f, rem: r });
+          });
+        });
+
+        const isToday = (cellDateISO === todayISO);
+
+        const cellEl = document.createElement('div');
+        cellEl.className = `cal-cell ${isOtherMonth ? 'other-month' : ''} ${isToday ? 'today' : ''}`;
+        cellEl.onclick = () => openDayDrawer(cellDateISO);
+
+        // Header inside cell
+        let innerHTML = `
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-black ${isToday ? 'w-6 h-6 rounded-full gold-btn-bg text-maroon-950 flex items-center justify-center shadow' : 'text-stone-700'}">${dayNumber}</span>
+            <div class="flex items-center gap-1">
+              ${dayReminders.length ? `<span class="text-[11px]" title="${dayReminders.length} Reminder(s) Due">🔔</span>` : ''}
+              ${dayFestivals.some(f => f.muhuratDate === cellDateISO) ? `<span class="text-[11px] text-amber-500" title="Peak Muhurat / Sales Day">⭐</span>` : ''}
+            </div>
+          </div>
+          <div class="space-y-1 overflow-hidden">
+        `;
+
+        dayFestivals.slice(0, 3).forEach(f => {
+          const cat = AppState.categories[f.category] || DEFAULT_CATEGORIES.Festival;
+          innerHTML += `
+            <div onclick="event.stopPropagation(); openFestivalDetail('${f.id}')" class="event-chip truncate" style="background:${cat.bg}; color:${cat.color}; border-color:${cat.color}">
+              <span>${f.dateStatus === 'Verified' ? '✓' : '⚠'}</span>
+              <span>${f.name}</span>
+            </div>
+          `;
+        });
+
+        if (dayFestivals.length > 3) {
+          innerHTML += `<div class="text-[9px] font-extrabold text-gold-700 pl-1">+${dayFestivals.length - 3} more</div>`;
+        }
+
+        innerHTML += `</div>`;
+        cellEl.innerHTML = innerHTML;
+        cellsContainer.appendChild(cellEl);
+      }
+    }
+
+    function setMonthlyMonth(m) {
+      AppState.selectedMonth = m;
+      renderMonthlyCalendar();
+    }
+
+    function changeMonthDelta(delta) {
+      let m = AppState.selectedMonth + delta;
+      let y = AppState.selectedYear;
+      if (m < 0) { m = 11; y--; }
+      if (m > 11) { m = 0; y++; }
+      AppState.selectedMonth = m;
+      AppState.selectedYear = y;
+      document.getElementById('globalYearSelect').value = y;
+      renderMonthlyCalendar();
+    }
+
+    function jumpToCurrentMonth() {
+      const now = new Date();
+      AppState.selectedYear = now.getFullYear();
+      AppState.selectedMonth = now.getMonth();
+      document.getElementById('globalYearSelect').value = AppState.selectedYear;
+      renderMonthlyCalendar();
+    }
+
+    // 8. 12-MONTH YEAR OVERVIEW MATRIX (2020 TO 2050)
+    function renderYearlyCalendar() {
+      const yr = AppState.selectedYear;
+      document.getElementById('yearlyCurrentYearSpan').textContent = yr;
+      const container = document.getElementById('yearlyMonthsMatrix');
+      container.innerHTML = '';
+
+      const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      const todayISO = getTodayISO();
+
+      for (let m = 0; m < 12; m++) {
+        const firstDay = new Date(yr, m, 1).getDay();
+        const daysInMonth = new Date(yr, m + 1, 0).getDate();
+        const mFests = AppState.festivals.filter(f => {
+          const d = parseISODate(f.startDate);
+          return d && d.getFullYear() === yr && d.getMonth() === m;
+        });
+
+        let miniGridHTML = '';
+        // blanks
+        for (let b = 0; b < firstDay; b++) {
+          miniGridHTML += `<div></div>`;
+        }
+        // days
+        for (let d = 1; d <= daysInMonth; d++) {
+          const cISO = `${yr}-${pad2(m + 1)}-${pad2(d)}`;
+          const hasFest = mFests.some(f => f.startDate === cISO);
+          const isT = (cISO === todayISO);
+          miniGridHTML += `
+            <div onclick="openDayDrawer('${cISO}')" class="h-6 flex items-center justify-center text-[10px] font-bold rounded cursor-pointer transition ${
+              isT ? 'bg-maroon-900 text-gold-200' : hasFest ? 'bg-gold-200 text-maroon-950 font-black ring-1 ring-gold-400' : 'text-stone-700 hover:bg-gold-50'
+            }">
+              ${d}
+            </div>
+          `;
+        }
+
+        const monthCard = document.createElement('div');
+        monthCard.className = 'card-master p-3.5 flex flex-col justify-between';
+        monthCard.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between pb-2 border-b border-gold-500/20">
+              <button onclick="AppState.selectedMonth=${m}; navigate('monthly');" class="font-serif font-bold text-maroon-900 hover:text-gold-700 text-sm">
+                ${monthNames[m]}
+              </button>
+              <span class="text-[10px] font-extrabold bg-gold-100 text-maroon-900 px-2 py-0.5 rounded-full">${mFests.length} Events</span>
+            </div>
+            <div class="grid grid-cols-7 gap-1 text-center text-[9px] font-bold text-stone-400 my-2">
+              <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+            </div>
+            <div class="grid grid-cols-7 gap-1">
+              ${miniGridHTML}
+            </div>
+          </div>
+          <div class="mt-3 pt-2 border-t border-stone-100 space-y-1">
+            ${mFests.slice(0, 2).map(f => {
+              const cat = AppState.categories[f.category] || DEFAULT_CATEGORIES.Festival;
+              return `
+                <div onclick="openFestivalDetail('${f.id}')" class="text-[10px] font-bold truncate px-1.5 py-0.5 rounded cursor-pointer" style="background:${cat.bg}; color:${cat.color}">
+                  • ${formatShortDate(f.startDate)}: ${f.name}
+                </div>
+              `;
+            }).join('')}
+            ${mFests.length > 2 ? `<div class="text-[9px] font-bold text-gold-700 text-right">+${mFests.length - 2} more</div>` : ''}
+          </div>
+        `;
+        container.appendChild(monthCard);
+      }
+    }
+
+    // 9. MASTER REGISTRY TABLE & FILTER
+    function renderMasterRegistry() {
+      const yr = AppState.selectedYear;
+      document.getElementById('registryYearSpan').textContent = yr;
+
+      // Populate Category Filter Dropdown
+      const catSelect = document.getElementById('listFilterCategory');
+      catSelect.innerHTML = `<option value="ALL">All Categories</option>` + Object.keys(AppState.categories).map(k => `
+        <option value="${k}" ${AppState.filterCategory === k ? 'selected' : ''}>${k}</option>
+      `).join('');
+
+      applyRegistryFilters();
+    }
+
+    function applyRegistryFilters() {
+      const yr = AppState.selectedYear;
+      const search = (document.getElementById('listFilterSearch').value || '').toLowerCase().trim();
+      const cat = document.getElementById('listFilterCategory').value;
+      const status = document.getElementById('listFilterStatus').value;
+      const priority = document.getElementById('listFilterPriority').value;
+
+      let list = AppState.festivals.filter(f => f.year === yr);
+
+      if (search) {
+        list = list.filter(f => 
+          f.name.toLowerCase().includes(search) ||
+          f.master_festival_key.toLowerCase().includes(search) ||
+          (f.mahotsav && f.mahotsav.toLowerCase().includes(search)) ||
+          (f.notes && f.notes.toLowerCase().includes(search))
+        );
+      }
+
+      if (cat !== 'ALL') list = list.filter(f => f.category === cat);
+      if (status !== 'ALL') list = list.filter(f => f.dateStatus === status);
+      if (priority !== 'ALL') list = list.filter(f => f.priority === priority);
+
+      list.sort((a,b) => a.startDate.localeCompare(b.startDate));
+      document.getElementById('registryCountLbl').textContent = `Showing ${list.length} festival${list.length !== 1 ? 's' : ''}`;
+
+      const container = document.getElementById('masterRegistryList');
+      if (list.length === 0) {
+        container.innerHTML = `
+          <div class="card-master p-12 text-center text-stone-400">
+            <span class="text-3xl">🔍</span>
+            <div class="font-serif font-bold text-maroon-900 text-base mt-2">No festivals matching criteria</div>
+            <p class="text-xs mt-1">Try resetting the filters or add a new festival record for ${yr}.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const todayISO = getTodayISO();
+      container.innerHTML = list.map(f => {
+        const catObj = AppState.categories[f.category] || DEFAULT_CATEGORIES.Festival;
+        const dDiff = daysDifference(todayISO, f.startDate);
+        const tasks = f.tasks || [];
+        const doneTasks = tasks.filter(t => t.done).length;
+        const taskPct = tasks.length ? Math.round((doneTasks / tasks.length) * 100) : 100;
+
+        // Previous year record
+        const prevFest = AppState.festivals.find(pf => pf.master_festival_key === f.master_festival_key && pf.year === yr - 1);
+        const prevText = prevFest ? `Last Year (${yr-1}): ${formatDateDisplay(prevFest.startDate)}` : 'No prev record';
+
+        return `
+          <div class="card-master p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-gold-500/60 transition">
+            <div class="flex items-start gap-3.5">
+              <div class="w-12 h-12 rounded-2xl flex flex-col items-center justify-center text-white shrink-0 shadow font-bold" style="background: linear-gradient(135deg, ${catObj.color}, #2A0606)">
+                <span class="text-xs leading-none">${pad2(parseISODate(f.startDate).getDate())}</span>
+                <span class="text-[9px] uppercase tracking-wider opacity-90">${formatShortDate(f.startDate).split(' ')[1]}</span>
+              </div>
+              <div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="font-serif font-bold text-base text-maroon-900">${f.name}</span>
+                  <span class="font-mono text-[10px] bg-stone-100 text-stone-700 px-2 py-0.5 rounded border">key: ${f.master_festival_key}</span>
+                  <span class="status-badge status-${f.dateStatus.replace(/\s+/g,'')}">${f.dateStatus}</span>
+                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-full" style="background:${catObj.bg}; color:${catObj.color}">${f.category}</span>
+                </div>
+                <div class="text-xs font-semibold text-gold-800 mt-1">${f.mahotsav || 'Standard Celebration'} • ${formatDateDisplay(f.startDate)}${f.endDate && f.endDate !== f.startDate ? ` to ${formatDateDisplay(f.endDate)}` : ''}</div>
+                <div class="text-[11px] text-stone-500 mt-1 flex items-center gap-3">
+                  <span>🕰 ${prevText}</span>
+                  <span>📋 <strong>${doneTasks}/${tasks.length}</strong> tasks completed (${taskPct}%)</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 self-end md:self-center">
+              <span class="text-xs font-black px-2.5 py-1 rounded-lg ${dDiff === 0 ? 'bg-red-600 text-white' : dDiff > 0 ? 'bg-gold-100 text-maroon-900' : 'bg-stone-100 text-stone-500'}">
+                ${dDiff === 0 ? 'TODAY' : dDiff > 0 ? `in ${dDiff} days` : `${Math.abs(dDiff)}d ago`}
+              </span>
+              <button onclick="openFestivalDetail('${f.id}')" class="px-3.5 py-2 rounded-xl border border-gold-500/40 text-xs font-bold text-maroon-900 hover:bg-gold-50">
+                Inspect
+              </button>
+              <button onclick="editFestivalRecord('${f.id}')" class="px-3.5 py-2 rounded-xl gold-btn-bg text-maroon-950 text-xs font-bold hover:brightness-105">
+                Edit
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function clearRegistryFilters() {
+      document.getElementById('listFilterSearch').value = '';
+      document.getElementById('listFilterCategory').value = 'ALL';
+      document.getElementById('listFilterStatus').value = 'ALL';
+      document.getElementById('listFilterPriority').value = 'ALL';
+      applyRegistryFilters();
+    }
+
+    // 10. FESTIVAL HISTORY & MULTI-YEAR VARIANCE EXPLORER
+    function renderHistoryExplorer() {
+      const keysMap = {};
+      AppState.festivals.forEach(f => {
+        if (!keysMap[f.master_festival_key]) {
+          keysMap[f.master_festival_key] = f.name;
+        }
+      });
+
+      const select = document.getElementById('historyMasterKeySelect');
+      select.innerHTML = Object.keys(keysMap).map(k => `
+        <option value="${k}">${keysMap[k]} (${k})</option>
+      `).join('');
+
+      const firstKey = Object.keys(keysMap)[0] || 'diwali';
+      select.value = firstKey;
+      renderHistoryTimeline(firstKey);
+    }
+
+    function renderHistoryTimeline(masterKey) {
+      const records = AppState.festivals
+        .filter(f => f.master_festival_key === masterKey)
+        .sort((a,b) => a.year - b.year);
+
+      const latest = records[records.length - 1];
+      if (!latest) return;
+
+      const catObj = AppState.categories[latest.category] || DEFAULT_CATEGORIES.Festival;
+
+      // Header Banner
+      document.getElementById('historyDetailHeader').innerHTML = `
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="font-serif font-black text-2xl text-maroon-900">${latest.name}</h3>
+              <span class="font-mono text-xs bg-gold-100 text-maroon-900 px-2.5 py-1 rounded-md font-bold">master_festival_key: ${masterKey}</span>
+            </div>
+            <div class="text-xs text-stone-600 mt-1">${latest.mahotsav || 'Standard Central Master Sequence'} • Category: <strong>${latest.category}</strong></div>
+          </div>
+          <div class="text-right text-xs">
+            <span class="status-badge status-${latest.dateStatus.replace(/\s+/g,'')}">${latest.dateStatus}</span>
+            <div class="text-stone-500 mt-1">${records.length} Recorded Calendar Years (2020–2050)</div>
+          </div>
+        </div>
+      `;
+
+      // Timeline Rows
+      const container = document.getElementById('historyChronologyGrid');
+      container.innerHTML = records.map((rec, idx) => {
+        let diffText = 'Base Year Reference';
+        if (idx > 0) {
+          const prev = records[idx - 1];
+          const daysDiff = daysDifference(prev.startDate, rec.startDate);
+          const shift = daysDiff - 365;
+          diffText = (shift === 0) ? 'Exact solar date match' : (shift > 0 ? `+${shift} days later than ${prev.year}` : `${shift} days earlier than ${prev.year}`);
+        }
+
+        const isCurrent = (rec.year === AppState.selectedYear);
+
+        return `
+          <div class="p-3.5 rounded-xl border ${isCurrent ? 'border-gold-500 bg-gold-50/70 ring-2 ring-gold-400/40' : 'border-stone-200 bg-white'} flex flex-col md:flex-row md:items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <div class="w-14 text-center">
+                <span class="font-serif font-black text-lg ${isCurrent ? 'text-maroon-900 font-extrabold' : 'text-stone-700'}">${rec.year}</span>
+                ${isCurrent ? '<span class="block text-[8px] font-extrabold text-gold-700 uppercase">Selected</span>' : ''}
+              </div>
+              <div class="h-8 w-px bg-gold-400/30"></div>
+              <div>
+                <div class="text-xs font-black text-maroon-900">${formatDateDisplay(rec.startDate)}</div>
+                <div class="text-[11px] text-stone-500 font-medium">Variance: <strong class="text-gold-800">${diffText}</strong></div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3 text-xs">
+              <span class="status-badge status-${rec.dateStatus.replace(/\s+/g,'')}">${rec.dateStatus}</span>
+              <span class="text-stone-600">${(rec.tasks || []).filter(t=>t.done).length}/12 Tasks</span>
+              <button onclick="openFestivalDetail('${rec.id}')" class="text-gold-700 font-bold underline">Inspect</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // 11. JEWELLERY PLANNING HUB (12 WORKFLOWS)
+    function renderPlanningHub() {
+      const yr = AppState.selectedYear;
+      document.getElementById('planYearSpan').textContent = yr;
+
+      const yearFests = AppState.festivals.filter(f => f.year === yr).sort((a,b) => a.startDate.localeCompare(b.startDate));
+      const allTasks = yearFests.flatMap(f => f.tasks || []);
+      const completed = allTasks.filter(t => t.done).length;
+      const pct = allTasks.length ? Math.round((completed / allTasks.length) * 100) : 100;
+
+      document.getElementById('planStatTotalTasks').textContent = allTasks.length;
+      document.getElementById('planStatCompletedTasks').textContent = completed;
+      document.getElementById('planStatOverallPct').textContent = `${pct}%`;
+
+      const container = document.getElementById('planningFestivalsContainer');
+      if (yearFests.length === 0) {
+        container.innerHTML = `<div class="card-master p-8 text-center text-stone-400">No festivals found for Year ${yr}.</div>`;
+        return;
+      }
+
+      container.innerHTML = yearFests.map(f => {
+        const cat = AppState.categories[f.category] || DEFAULT_CATEGORIES.Festival;
+        const tasks = f.tasks || [];
+        const doneC = tasks.filter(t => t.done).length;
+        const pPct = tasks.length ? Math.round((doneC / tasks.length) * 100) : 100;
+
+        return `
+          <div class="card-master p-4 sm:p-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-gold-500/20 gap-2">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="font-serif font-bold text-lg text-maroon-900">${f.name}</span>
+                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-full" style="background:${cat.bg}; color:${cat.color}">${f.category}</span>
+                </div>
+                <div class="text-xs text-stone-500 mt-0.5">Date: <strong>${formatDateDisplay(f.startDate)}</strong> • ${f.mahotsav || ''}</div>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="text-right">
+                  <div class="text-xs font-black text-maroon-900">${doneC} of ${tasks.length} Completed</div>
+                  <div class="text-[10px] text-stone-500">${pPct}% Ready</div>
+                </div>
+                <div class="w-16 bg-stone-100 rounded-full h-2 overflow-hidden border border-gold-400/30">
+                  <div class="gold-btn-bg h-full" style="width: ${pPct}%"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Task List Grid -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-2.5 mt-3.5">
+              ${tasks.map(tk => `
+                <div class="p-2.5 rounded-xl border ${tk.done ? 'bg-emerald-50/60 border-emerald-300' : 'bg-white border-stone-200'} flex items-start gap-2.5 transition">
+                  <input type="checkbox" ${tk.done ? 'checked' : ''} onchange="toggleTaskStatus('${f.id}', '${tk.id}', this.checked)" class="accent-maroon-800 w-4 h-4 mt-0.5 cursor-pointer">
+                  <div class="min-w-0 flex-1">
+                    <div class="text-xs font-bold ${tk.done ? 'text-emerald-900 line-through' : 'text-maroon-950'} leading-tight">${tk.label}</div>
+                    <div class="text-[10px] text-stone-500 mt-0.5 flex items-center justify-between">
+                      <span>${tk.role}</span>
+                      <span>Due: ${tk.dueDate ? formatShortDate(tk.dueDate) : '—'}</span>
+                    </div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function toggleTaskStatus(festId, taskId, isChecked) {
+      const fest = AppState.festivals.find(f => f.id === festId);
+      if (!fest) return;
+      const tk = (fest.tasks || []).find(t => t.id === taskId);
+      if (tk) {
+        tk.done = isChecked;
+        fest.updatedAt = new Date().toISOString();
+        saveFestivals();
+        renderPlanningHub();
+        showToast(`Updated task: ${tk.label}`);
+      }
+    }
+
+    // 12. ADVANCE REMINDERS ENGINE
+    function renderRemindersEngine() {
+      const yr = AppState.selectedYear;
+      const todayISO = getTodayISO();
+      
+      const allRemList = [];
+      AppState.festivals.filter(f => f.year === yr).forEach(f => {
+        (f.reminders || []).forEach(r => {
+          const rDate = r.customDate || addDaysToISO(f.startDate, -r.daysBefore);
+          const diff = daysDifference(todayISO, rDate);
+          allRemList.push({
+            id: r.id,
+            festId: f.id,
+            festName: f.name,
+            festDate: f.startDate,
+            category: f.category,
+            label: r.label,
+            daysBefore: r.daysBefore,
+            remDate: rDate,
+            diff: diff,
+            done: r.done
+          });
+        });
+      });
+
+      // KPI summary
+      const totalRems = allRemList.length;
+      const overdue = allRemList.filter(r => !r.done && r.diff < 0).length;
+      const dueToday = allRemList.filter(r => !r.done && r.diff === 0).length;
+      const next7 = allRemList.filter(r => !r.done && r.diff > 0 && r.diff <= 7).length;
+
+      document.getElementById('remindersKpiGrid').innerHTML = `
+        <div class="card-master p-3.5 bg-gradient-to-br from-amber-50 to-gold-100">
+          <div class="text-[9px] font-bold uppercase tracking-wider text-stone-500">Total Configured</div>
+          <div class="font-serif font-bold text-xl text-maroon-900 mt-0.5">${totalRems}</div>
+        </div>
+        <div class="card-master p-3.5 bg-gradient-to-br from-red-50 to-pink-50">
+          <div class="text-[9px] font-bold uppercase tracking-wider text-red-600">🚨 Overdue Alerts</div>
+          <div class="font-serif font-bold text-xl text-red-700 mt-0.5">${overdue}</div>
+        </div>
+        <div class="card-master p-3.5 bg-gradient-to-br from-purple-50 to-indigo-50">
+          <div class="text-[9px] font-bold uppercase tracking-wider text-purple-700">Due Today</div>
+          <div class="font-serif font-bold text-xl text-purple-900 mt-0.5">${dueToday}</div>
+        </div>
+        <div class="card-master p-3.5 bg-gradient-to-br from-emerald-50 to-teal-50">
+          <div class="text-[9px] font-bold uppercase tracking-wider text-emerald-700">Next 7 Days</div>
+          <div class="font-serif font-bold text-xl text-emerald-900 mt-0.5">${next7}</div>
+        </div>
+      `;
+
+      // Filter
+      let filtered = allRemList;
+      if (AppState.remFilter === 'OVERDUE') filtered = filtered.filter(r => !r.done && r.diff < 0);
+      else if (AppState.remFilter === 'DUE_TODAY') filtered = filtered.filter(r => !r.done && r.diff === 0);
+      else if (AppState.remFilter === 'NEXT_7') filtered = filtered.filter(r => !r.done && r.diff >= 0 && r.diff <= 7);
+      else if (AppState.remFilter === 'NEXT_30') filtered = filtered.filter(r => !r.done && r.diff >= 0 && r.diff <= 30);
+      else if (AppState.remFilter === 'COMPLETED') filtered = filtered.filter(r => r.done);
+
+      filtered.sort((a,b) => a.remDate.localeCompare(b.remDate));
+
+      const container = document.getElementById('remindersMasterList');
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="card-master p-8 text-center text-stone-400">No reminders matching the selected filter.</div>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map(r => `
+        <div class="card-master p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${r.done ? 'opacity-60 bg-stone-50' : ''}">
+          <div class="flex items-center gap-3">
+            <input type="checkbox" ${r.done ? 'checked' : ''} onchange="toggleReminderDone('${r.festId}', '${r.id}', this.checked)" class="accent-maroon-800 w-5 h-5 cursor-pointer shrink-0">
+            <div>
+              <div class="text-xs font-bold text-maroon-900 flex items-center gap-2">
+                <span>${r.label}</span>
+                <span class="text-stone-400">→</span>
+                <span class="text-gold-800 font-extrabold">${r.festName}</span>
+              </div>
+              <div class="text-[11px] text-stone-500 mt-0.5">
+                Alert Date: <strong>${formatDateDisplay(r.remDate)}</strong> (Festival: ${formatDateDisplay(r.festDate)})
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 self-end sm:self-center">
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded ${
+              r.done ? 'bg-emerald-100 text-emerald-800' :
+              r.diff < 0 ? 'bg-red-100 text-red-700' :
+              r.diff === 0 ? 'bg-amber-100 text-amber-900' : 'bg-stone-100 text-stone-700'
+            }">
+              ${r.done ? '✓ Done' : r.diff < 0 ? `${Math.abs(r.diff)}d Overdue` : r.diff === 0 ? 'Due Today' : `in ${r.diff}d`}
+            </span>
+            <button onclick="openFestivalDetail('${r.festId}')" class="text-xs font-bold text-gold-700 underline">View Plan</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function setReminderFilter(fName) {
+      AppState.remFilter = fName;
+      document.querySelectorAll('.rem-filter-btn').forEach(btn => {
+        const on = btn.dataset.f === fName;
+        btn.className = on 
+          ? 'rem-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold gold-btn-bg text-maroon-950'
+          : 'rem-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-white border border-stone-200 text-maroon-900';
+      });
+      renderRemindersEngine();
+    }
+
+    function toggleReminderDone(festId, remId, isDone) {
+      const fest = AppState.festivals.find(f => f.id === festId);
+      if (!fest) return;
+      const r = (fest.reminders || []).find(x => x.id === remId);
+      if (r) {
+        r.done = isDone;
+        fest.updatedAt = new Date().toISOString();
+        saveFestivals();
+        renderRemindersEngine();
+        updateHeaderBadges();
+      }
+    }
+
+    // 13. NEW YEAR SETUP WIZARD
+    function renderNewYearWizard() {
+      const grid = document.getElementById('wizardYearStatusGrid');
+      grid.innerHTML = '';
+
+      for (let yr = 2020; yr <= 2050; yr++) {
+        const count = AppState.festivals.filter(f => f.year === yr).length;
+        const verified = AppState.festivals.filter(f => f.year === yr && f.dateStatus === 'Verified').length;
+        
+        const card = document.createElement('div');
+        card.onclick = () => setGlobalYear(yr);
+        card.className = `p-3 rounded-xl border text-center cursor-pointer transition ${
+          yr === AppState.selectedYear ? 'gold-btn-bg text-maroon-950 border-gold-600 shadow' :
+          count > 0 ? 'bg-white border-gold-400/40 text-maroon-900 hover:bg-gold-50' : 'bg-stone-50 border-stone-200 text-stone-400'
+        }`;
+        card.innerHTML = `
+          <div class="font-serif font-black text-sm">${yr}</div>
+          <div class="text-[10px] font-bold mt-0.5">${count} Festivals</div>
+          <div class="text-[8px] opacity-80">${verified} Verified</div>
+        `;
+        grid.appendChild(card);
+      }
+    }
+
+    function executeNewYearGeneration() {
+      const srcYear = parseInt(document.getElementById('wizardSourceYear').value);
+      const tgtYear = parseInt(document.getElementById('wizardTargetYear').value);
+      const copyTasks = document.getElementById('wizardFlagTasks').checked;
+      const copyReminders = document.getElementById('wizardFlagReminders').checked;
+
+      if (srcYear === tgtYear) {
+        alert("Source and Target year must be different.");
+        return;
+      }
+
+      const srcFests = AppState.festivals.filter(f => f.year === srcYear);
+      if (srcFests.length === 0) {
+        alert(`Source year ${srcYear} has no festival records.`);
+        return;
+      }
+
+      // Remove existing target year entries if any
+      AppState.festivals = AppState.festivals.filter(f => f.year !== tgtYear);
+
+      srcFests.forEach(sf => {
+        // Approximate date shift
+        const srcDate = parseISODate(sf.startDate);
+        const newStart = `${tgtYear}-${pad2(srcDate.getMonth() + 1)}-${pad2(srcDate.getDate())}`;
+        const newEnd = sf.endDate ? `${tgtYear}-${pad2(parseISODate(sf.endDate).getMonth() + 1)}-${pad2(parseISODate(sf.endDate).getDate())}` : newStart;
+
+        const newTasks = copyTasks ? STANDARD_JEWELLERY_TASKS.map((t, idx) => ({
+          id: `task_${sf.master_festival_key}_${tgtYear}_${idx}`,
+          templateId: t.id,
+          label: t.label,
+          role: t.role,
+          done: false,
+          dueDate: addDaysToISO(newStart, -t.defaultDaysBefore),
+          notes: ''
+        })) : [];
+
+        const remDays = (sf.priority === 'Critical') ? [90, 60, 30, 15, 7, 1] : [60, 30, 7, 1];
+        const newReminders = copyReminders ? remDays.map(d => ({
+          id: `rem_${sf.master_festival_key}_${tgtYear}_${d}`,
+          daysBefore: d,
+          customDate: null,
+          label: `${d} Days Advance Alert`,
+          done: false
+        })) : [];
+
+        AppState.festivals.push({
+          id: `fest_${sf.master_festival_key}_${tgtYear}`,
+          master_festival_key: sf.master_festival_key,
+          year: tgtYear,
+          name: sf.name,
+          mahotsav: sf.mahotsav || '',
+          category: sf.category,
+          priority: sf.priority,
+          dateStatus: 'Date Verification Required',
+          startDate: newStart,
+          endDate: newEnd,
+          muhuratDate: newStart,
+          notes: sf.notes || '',
+          tasks: newTasks,
+          reminders: newReminders,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        });
+      });
+
+      saveFestivals();
+      setGlobalYear(tgtYear);
+      navigate('list');
+      showToast(`Master Calendar for Year ${tgtYear} created successfully (${srcFests.length} Festivals)!`);
+    }
+
+    function seedAllYearsUpTo2050() {
+      if (!confirm("This will seed and synchronize all years up to 2050 based on Astronomical Panchang models. Existing records will be preserved. Proceed?")) return;
+
+      for (let y = 2024; y <= 2050; y++) {
+        const existing = AppState.festivals.filter(f => f.year === y);
+        if (existing.length === 0) {
+          MASTER_SEED_DEFINITIONS.forEach(def => {
+            const base2026 = parseISODate(def.dates[2026] || '2026-10-15');
+            const offset = (y - 2026) * 365 + ((y % 4 === 0) ? 1 : 0);
+            const est = new Date(base2026.getTime() + offset * 86400000);
+            const sDate = toISODate(est);
+            const eDate = def.endDateDelta ? addDaysToISO(sDate, def.endDateDelta) : sDate;
+
+            AppState.festivals.push({
+              id: `fest_${def.key}_${y}`,
+              master_festival_key: def.key,
+              year: y,
+              name: def.name,
+              mahotsav: def.mahotsav || '',
+              category: def.category,
+              priority: def.priority,
+              dateStatus: (y <= 2026) ? 'Verified' : 'Date Verification Required',
+              startDate: sDate,
+              endDate: eDate,
+              muhuratDate: sDate,
+              notes: def.notes || '',
+              tasks: STANDARD_JEWELLERY_TASKS.map((t, idx) => ({
+                id: `task_${def.key}_${y}_${idx}`,
+                templateId: t.id,
+                label: t.label,
+                role: t.role,
+                done: false,
+                dueDate: addDaysToISO(sDate, -t.defaultDaysBefore),
+                notes: ''
+              })),
+              reminders: [60, 30, 7, 1].map(d => ({
+                id: `rem_${def.key}_${y}_${d}`,
+                daysBefore: d,
+                customDate: null,
+                label: `${d} Days Advance Alert`,
+                done: false
+              })),
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString()
+            });
+          });
+        }
+      }
+
+      saveFestivals();
+      renderNewYearWizard();
+      showToast("Successfully seeded master festival records through 2050!");
+    }
+
+    // 14. CATEGORY MANAGER
+    function renderCategoryManager() {
+      const grid = document.getElementById('categoryCardsGrid');
+      grid.innerHTML = Object.keys(AppState.categories).map(k => {
+        const cat = AppState.categories[k];
+        const count = AppState.festivals.filter(f => f.category === k && f.year === AppState.selectedYear).length;
+        return `
+          <div class="card-master p-4 flex flex-col justify-between" style="border-top: 4px solid ${cat.color};">
+            <div>
+              <div class="flex items-center justify-between">
+                <span class="font-serif font-bold text-base text-maroon-900">${cat.name}</span>
+                <span class="text-[10px] font-bold px-2.5 py-0.5 rounded-full" style="background:${cat.bg}; color:${cat.color}">${count} in ${AppState.selectedYear}</span>
+              </div>
+              <p class="text-xs text-stone-500 mt-1">${cat.desc || 'Central Category classification'}</p>
+            </div>
+            <div class="mt-4 pt-2 border-t border-stone-100 flex items-center justify-between text-xs">
+              <span class="font-mono text-[10px] text-stone-400">Color: ${cat.color}</span>
+              <button onclick="editCategory('${k}')" class="text-gold-700 font-bold hover:underline">Edit Palette</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function editCategory(catKey) {
+      const newName = prompt("Edit Category Name:", AppState.categories[catKey].name);
+      if (newName) {
+        AppState.categories[catKey].name = newName;
+        localStorage.setItem(CATEGORIES_KEY, JSON.stringify(AppState.categories));
+        renderCategoryManager();
+        showToast("Category updated.");
+      }
+    }
+
+    function openAddCategoryModal() {
+      const name = prompt("Enter New Category Name:");
+      if (!name) return;
+      const key = slugifyKey(name);
+      if (AppState.categories[name]) {
+        alert("Category already exists.");
+        return;
+      }
+      AppState.categories[name] = {
+        name: name,
+        color: "#85640D",
+        bg: "#FFF9E6",
+        border: "#E8C547",
+        desc: "Custom User Added Category"
+      };
+      localStorage.setItem(CATEGORIES_KEY, JSON.stringify(AppState.categories));
+      renderCategoryManager();
+      showToast(`Category '${name}' created.`);
+    }
+
+    // 15. INSIGHTS & ANALYTICS CHARTS
+    let chartInstances = {};
+
+    function renderInsightsView() {
+      const yr = AppState.selectedYear;
+      document.getElementById('insightsYearSpan').textContent = yr;
+
+      const yearFests = AppState.festivals.filter(f => f.year === yr);
+      
+      // 1. Monthly Clustering
+      const monthCounts = new Array(12).fill(0);
+      yearFests.forEach(f => {
+        const d = parseISODate(f.startDate);
+        if (d) monthCounts[d.getMonth()]++;
+      });
+
+      if (chartInstances.clustering) chartInstances.clustering.destroy();
+      chartInstances.clustering = new Chart(document.getElementById('chartMonthlyClustering'), {
+        type: 'bar',
+        data: {
+          labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+          datasets: [{
+            label: 'Festivals Count',
+            data: monthCounts,
+            backgroundColor: '#C9A227',
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+        }
+      });
+
+      // 2. Category Mix
+      const catLabels = Object.keys(AppState.categories);
+      const catCounts = catLabels.map(k => yearFests.filter(f => f.category === k).length);
+      const catColors = catLabels.map(k => AppState.categories[k].color);
+
+      if (chartInstances.catMix) chartInstances.catMix.destroy();
+      chartInstances.catMix = new Chart(document.getElementById('chartCategoryMix'), {
+        type: 'doughnut',
+        data: {
+          labels: catLabels,
+          datasets: [{
+            data: catCounts,
+            backgroundColor: catColors
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } }
+        }
+      });
+
+      // 3. Planning Readiness Top 6
+      const top6 = yearFests.slice(0, 6);
+      const festLabels = top6.map(f => f.name.slice(0, 14));
+      const festPcts = top6.map(f => {
+        const tasks = f.tasks || [];
+        const d = tasks.filter(t => t.done).length;
+        return tasks.length ? Math.round((d / tasks.length) * 100) : 100;
+      });
+
+      if (chartInstances.readiness) chartInstances.readiness.destroy();
+      chartInstances.readiness = new Chart(document.getElementById('chartPlanningReadiness'), {
+        type: 'bar',
+        data: {
+          labels: festLabels,
+          datasets: [{
+            label: '% Done',
+            data: festPcts,
+            backgroundColor: '#5C0E0E',
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true, max: 100 } }
+        }
+      });
+
+      // 4. Commercial Priority
+      const priCritical = yearFests.filter(f => f.priority === 'Critical').length;
+      const priHigh = yearFests.filter(f => f.priority === 'High').length;
+      const priMed = yearFests.filter(f => f.priority === 'Medium').length;
+      const priLow = yearFests.filter(f => f.priority === 'Low').length;
+
+      if (chartInstances.priority) chartInstances.priority.destroy();
+      chartInstances.priority = new Chart(document.getElementById('chartPriorityWeight'), {
+        type: 'pie',
+        data: {
+          labels: ['Critical (High Turn)', 'High Priority', 'Medium', 'Low'],
+          datasets: [{
+            data: [priCritical, priHigh, priMed, priLow],
+            backgroundColor: ['#9B1C1C', '#EA580C', '#CA8A04', '#6B7280']
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } }
+        }
+      });
+    }
+
+    // 16. MODAL & RECORD EDITING ENGINE
+    function openFestivalModal(dateDefault = null) {
+      AppState.editingFestivalId = null;
+      document.getElementById('modalFestTitle').textContent = `Add Master Festival Record (${AppState.selectedYear})`;
+      document.getElementById('formBtnDelete').classList.add('hidden');
+
+      // Populate Categories select
+      const catSelect = document.getElementById('formCategory');
+      catSelect.innerHTML = Object.keys(AppState.categories).map(k => `<option value="${k}">${k}</option>`).join('');
+
+      // Reset Inputs
+      document.getElementById('formFestName').value = '';
+      document.getElementById('formMasterKey').value = '';
+      document.getElementById('formMahotsavName').value = '';
+      document.getElementById('formStartDate').value = dateDefault || `${AppState.selectedYear}-10-15`;
+      document.getElementById('formEndDate').value = dateDefault || `${AppState.selectedYear}-10-15`;
+      document.getElementById('formMuhuratDate').value = dateDefault || `${AppState.selectedYear}-10-15`;
+      document.getElementById('formNotes').value = '';
+      document.getElementById('formPriority').value = 'High';
+      document.getElementById('formDateStatus').value = 'Verified';
+
+      renderFormRemPresets();
+      renderFormTasksGrid();
+      switchModalTab('tab-meta');
+
+      document.getElementById('modalFestival').classList.remove('hidden');
+    }
+
+    function editFestivalRecord(festId) {
+      const f = AppState.festivals.find(x => x.id === festId);
+      if (!f) return;
+
+      AppState.editingFestivalId = festId;
+      document.getElementById('modalFestTitle').textContent = `Edit Master Record: ${f.name} (${f.year})`;
+      document.getElementById('formBtnDelete').classList.remove('hidden');
+
+      const catSelect = document.getElementById('formCategory');
+      catSelect.innerHTML = Object.keys(AppState.categories).map(k => `<option value="${k}" ${f.category === k ? 'selected' : ''}>${k}</option>`).join('');
+
+      document.getElementById('formFestName').value = f.name;
+      document.getElementById('formMasterKey').value = f.master_festival_key;
+      document.getElementById('formMahotsavName').value = f.mahotsav || '';
+      document.getElementById('formStartDate').value = f.startDate;
+      document.getElementById('formEndDate').value = f.endDate || f.startDate;
+      document.getElementById('formMuhuratDate').value = f.muhuratDate || f.startDate;
+      document.getElementById('formNotes').value = f.notes || '';
+      document.getElementById('formPriority').value = f.priority;
+      document.getElementById('formDateStatus').value = f.dateStatus;
+
+      renderFormRemPresets(f.reminders || []);
+      renderFormTasksGrid(f.tasks || []);
+      renderModalHistory(f.master_festival_key);
+
+      switchModalTab('tab-meta');
+      document.getElementById('modalFestival').classList.remove('hidden');
+    }
+
+    function closeFestivalModal() {
+      document.getElementById('modalFestival').classList.add('hidden');
+    }
+
+    function switchModalTab(tabId) {
+      ['tab-meta','tab-rems','tab-tasks','tab-hist'].forEach(t => {
+        const pane = document.getElementById(`modalTab-${t.replace('tab-','')}`);
+        const btn = document.querySelector(`.modal-tab-btn[data-tab="${t}"]`);
+        if (pane) pane.classList.toggle('hidden', t !== tabId);
+        if (btn) {
+          btn.className = (t === tabId)
+            ? 'modal-tab-btn px-3 py-1.5 rounded-lg gold-btn-bg text-maroon-950 font-bold'
+            : 'modal-tab-btn px-3 py-1.5 rounded-lg bg-stone-100 text-stone-700 font-bold';
+        }
+      });
+    }
+
+    function autoSuggestMasterKey(name) {
+      if (!AppState.editingFestivalId) {
+        document.getElementById('formMasterKey').value = slugifyKey(name);
+      }
+    }
+
+    function handleStartDateChanged(sDate) {
+      document.getElementById('formEndDate').value = sDate;
+      document.getElementById('formMuhuratDate').value = sDate;
+    }
+
+    function renderFormRemPresets(existing = []) {
+      const presets = [90, 60, 45, 30, 15, 7, 1];
+      const box = document.getElementById('formRemPresetsContainer');
+      box.innerHTML = presets.map(d => {
+        const isChecked = existing.some(r => r.daysBefore === d) || (!AppState.editingFestivalId && [60, 30, 7, 1].includes(d));
+        return `
+          <label class="flex items-center gap-2 p-2 rounded-xl bg-white border border-stone-200 text-xs font-semibold cursor-pointer">
+            <input type="checkbox" data-rem-day="${d}" ${isChecked ? 'checked' : ''} class="accent-maroon-800 w-4 h-4">
+            <span>${d} Days Before</span>
+          </label>
+        `;
+      }).join('');
+    }
+
+    function renderFormTasksGrid(existingTasks = []) {
+      const box = document.getElementById('formTasksContainer');
+      box.innerHTML = STANDARD_JEWELLERY_TASKS.map((t, idx) => {
+        const found = existingTasks.find(et => et.templateId === t.id);
+        const isDone = found ? found.done : false;
+        return `
+          <div class="p-2.5 rounded-xl border bg-white border-stone-200 flex items-start gap-2.5 text-xs">
+            <input type="checkbox" data-task-id="${t.id}" ${isDone ? 'checked' : ''} class="form-task-cb accent-maroon-800 w-4 h-4 mt-0.5">
+            <div>
+              <div class="font-bold text-maroon-950 leading-tight">${t.label}</div>
+              <div class="text-[10px] text-stone-500 mt-0.5">${t.role} • ${t.defaultDaysBefore}d buffer</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function toggleAllModalTasks(check) {
+      document.querySelectorAll('.form-task-cb').forEach(cb => cb.checked = check);
+    }
+
+    function renderModalHistory(mKey) {
+      const history = AppState.festivals.filter(f => f.master_festival_key === mKey).sort((a,b) => b.year - a.year);
+      const box = document.getElementById('formHistoryContainer');
+      if (history.length === 0) {
+        box.innerHTML = `<div class="text-stone-400 text-xs text-center py-4">No historical records available for key: ${mKey}</div>`;
+        return;
+      }
+      box.innerHTML = history.map(h => `
+        <div class="p-2.5 rounded-xl border border-stone-200 bg-white text-xs mb-2 flex items-center justify-between">
+          <div>
+            <strong>Year ${h.year}:</strong> ${formatDateDisplay(h.startDate)} (${h.dateStatus})
+            <div class="text-[10px] text-stone-500">${h.notes || 'No historical retail notes.'}</div>
+          </div>
+          <span class="status-badge status-${h.dateStatus.replace(/\s+/g,'')}">${h.dateStatus}</span>
+        </div>
+      `).join('');
+    }
+
+    function saveFestivalRecord() {
+      const name = document.getElementById('formFestName').value.trim();
+      const mKey = slugifyKey(document.getElementById('formMasterKey').value.trim() || name);
+      const sDate = document.getElementById('formStartDate').value;
+      const eDate = document.getElementById('formEndDate').value || sDate;
+      const mDate = document.getElementById('formMuhuratDate').value || sDate;
+      const cat = document.getElementById('formCategory').value;
+      const pri = document.getElementById('formPriority').value;
+      const status = document.getElementById('formDateStatus').value;
+      const mahotsav = document.getElementById('formMahotsavName').value.trim();
+      const notes = document.getElementById('formNotes').value.trim();
+
+      if (!name || !sDate) {
+        alert("Festival Name and Start Date are required.");
+        return;
+      }
+
+      const yr = parseISODate(sDate).getFullYear();
+
+      // Collect Tasks
+      const tasks = [];
+      STANDARD_JEWELLERY_TASKS.forEach((t, idx) => {
+        const cb = document.querySelector(`input[data-task-id="${t.id}"]`);
+        const done = cb ? cb.checked : false;
+        tasks.push({
+          id: `task_${mKey}_${yr}_${idx}`,
+          templateId: t.id,
+          label: t.label,
+          role: t.role,
+          done: done,
+          dueDate: addDaysToISO(sDate, -t.defaultDaysBefore),
+          notes: ''
+        });
+      });
+
+      // Collect Reminders
+      const reminders = [];
+      document.querySelectorAll('input[data-rem-day]').forEach(cb => {
+        if (cb.checked) {
+          const d = parseInt(cb.dataset.remDay);
+          reminders.push({
+            id: `rem_${mKey}_${yr}_${d}`,
+            daysBefore: d,
+            customDate: null,
+            label: `${d} Days Advance Alert`,
+            done: false
+          });
+        }
+      });
+
+      if (AppState.editingFestivalId) {
+        // Update
+        const idx = AppState.festivals.findIndex(f => f.id === AppState.editingFestivalId);
+        if (idx !== -1) {
+          AppState.festivals[idx] = {
+            ...AppState.festivals[idx],
+            name,
+            master_festival_key: mKey,
+            year: yr,
+            startDate: sDate,
+            endDate: eDate,
+            muhuratDate: mDate,
+            category: cat,
+            priority: pri,
+            dateStatus: status,
+            mahotsav,
+            notes,
+            tasks,
+            reminders,
+            updatedAt: new Date().toISOString()
+          };
+        }
+      } else {
+        // Create
+        AppState.festivals.push({
+          id: `fest_${mKey}_${yr}_${Date.now()}`,
+          master_festival_key: mKey,
+          year: yr,
+          name,
+          mahotsav,
+          category: cat,
+          priority: pri,
+          dateStatus: status,
+          startDate: sDate,
+          endDate: eDate,
+          muhuratDate: mDate,
+          notes,
+          tasks,
+          reminders,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        });
+      }
+
+      saveFestivals();
+      closeFestivalModal();
+      renderCurrentView();
+      showToast(`Master Record for '${name}' saved successfully!`);
+    }
+
+    function deleteCurrentFestival() {
+      if (!AppState.editingFestivalId) return;
+      if (!confirm("Are you sure you want to delete this master festival entry?")) return;
+
+      AppState.festivals = AppState.festivals.filter(f => f.id !== AppState.editingFestivalId);
+      saveFestivals();
+      closeFestivalModal();
+      renderCurrentView();
+      showToast("Festival record deleted.");
+    }
+
+    // 17. DETAIL MODAL & DAY DRAWER
+    function openFestivalDetail(festId) {
+      const f = AppState.festivals.find(x => x.id === festId);
+      if (!f) return;
+
+      const catObj = AppState.categories[f.category] || DEFAULT_CATEGORIES.Festival;
+      const prevFest = AppState.festivals.find(pf => pf.master_festival_key === f.master_festival_key && pf.year === f.year - 1);
+
+      const tasks = f.tasks || [];
+      const completed = tasks.filter(t => t.done).length;
+
+      const body = document.getElementById('detailModalBody');
+      body.innerHTML = `
+        <div class="bg-gradient-to-r from-maroon-950 via-maroon-900 to-maroon-800 p-5 text-white flex items-center justify-between">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="status-badge status-${f.dateStatus.replace(/\s+/g,'')}">${f.dateStatus}</span>
+              <span class="text-xs text-gold-300 font-bold uppercase tracking-wider">Year ${f.year}</span>
+            </div>
+            <h2 class="font-serif font-black text-2xl mt-1">${f.name}</h2>
+            <div class="text-xs text-gold-200/80 mt-0.5">${f.mahotsav || 'Central Master Festival'}</div>
+          </div>
+          <button onclick="document.getElementById('modalDetail').classList.add('hidden')" class="text-white text-xl font-bold p-1">✕</button>
+        </div>
+
+        <div class="p-5 space-y-4 text-xs">
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            <div class="bg-stone-50 p-2.5 rounded-xl border">
+              <div class="text-[9px] font-bold text-stone-500 uppercase">Start Date</div>
+              <div class="font-bold text-maroon-900 text-sm mt-0.5">${formatDateDisplay(f.startDate)}</div>
+            </div>
+            <div class="bg-stone-50 p-2.5 rounded-xl border">
+              <div class="text-[9px] font-bold text-stone-500 uppercase">⭐ Muhurat Day</div>
+              <div class="font-bold text-maroon-900 text-sm mt-0.5">${formatDateDisplay(f.muhuratDate || f.startDate)}</div>
+            </div>
+            <div class="bg-stone-50 p-2.5 rounded-xl border">
+              <div class="text-[9px] font-bold text-stone-500 uppercase">Category</div>
+              <div class="font-bold text-maroon-900 text-sm mt-0.5">${f.category}</div>
+            </div>
+            <div class="bg-stone-50 p-2.5 rounded-xl border">
+              <div class="text-[9px] font-bold text-stone-500 uppercase">Readiness</div>
+              <div class="font-bold text-emerald-800 text-sm mt-0.5">${completed}/${tasks.length} Done</div>
+            </div>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-gold-50/60 border border-gold-300">
+            <div class="font-bold text-maroon-900 uppercase tracking-wider text-[10px]">Permanent Architecture Key</div>
+            <div class="font-mono text-sm font-bold text-maroon-950 mt-0.5">${f.master_festival_key}</div>
+            <div class="text-stone-500 text-[11px] mt-1">
+              ${prevFest ? `🕰 Last year (${f.year-1}) this festival occurred on <strong>${formatDateDisplay(prevFest.startDate)}</strong>.` : 'No previous year linked record.'}
+            </div>
+          </div>
+
+          <div>
+            <div class="font-bold text-maroon-900 uppercase tracking-wider text-[10px] mb-2">Jewellery Business Checkpoints</div>
+            <div class="space-y-1.5 max-h-44 overflow-y-auto pr-1">
+              ${tasks.map(t => `
+                <div class="p-2 rounded-lg border bg-white flex items-center justify-between">
+                  <span class="${t.done ? 'line-through text-stone-400' : 'font-semibold text-maroon-900'}">${t.label}</span>
+                  <span class="text-[10px] font-bold ${t.done ? 'text-emerald-700' : 'text-stone-500'}">${t.done ? '✓ Completed' : 'Pending'}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-stone-200 flex justify-between items-center">
+            <button onclick="editFestivalRecord('${f.id}'); document.getElementById('modalDetail').classList.add('hidden');" class="gold-btn-bg text-maroon-950 font-bold px-4 py-2 rounded-xl">
+              ✏️ Edit Full Record
+            </button>
+            <button onclick="document.getElementById('modalDetail').classList.add('hidden')" class="border border-stone-300 px-4 py-2 rounded-xl font-bold">
+              Close
+            </button>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('modalDetail').classList.remove('hidden');
+    }
+
+    function openNextFestivalDetail() {
+      const yr = AppState.selectedYear;
+      const todayISO = getTodayISO();
+      const next = AppState.festivals.filter(f => f.year === yr && f.startDate >= todayISO).sort((a,b)=>a.startDate.localeCompare(b.startDate))[0];
+      if (next) openFestivalDetail(next.id);
+    }
+
+    function openDayDrawer(dateISO) {
+      AppState.dayDrawerDate = dateISO;
+      document.getElementById('dayDrawerDateLabel').textContent = formatDateDisplay(dateISO);
+
+      const fests = AppState.festivals.filter(f => f.startDate <= dateISO && (f.endDate || f.startDate) >= dateISO);
+      const content = document.getElementById('dayDrawerContent');
+
+      if (fests.length === 0) {
+        content.innerHTML = `
+          <div class="p-8 text-center text-stone-400 text-xs">
+            No festivals scheduled on this date.
+          </div>
+        `;
+      } else {
+        content.innerHTML = fests.map(f => `
+          <div onclick="openFestivalDetail('${f.id}')" class="p-3.5 rounded-xl border border-gold-400/50 bg-white hover:bg-gold-50 cursor-pointer transition">
+            <div class="flex items-center justify-between">
+              <span class="font-serif font-bold text-sm text-maroon-900">${f.name}</span>
+              <span class="status-badge status-${f.dateStatus.replace(/\s+/g,'')}">${f.dateStatus}</span>
+            </div>
+            <div class="text-[11px] font-semibold text-gold-800 mt-0.5">${f.category} • ${f.mahotsav || 'Celebration'}</div>
+            <div class="text-[10px] text-stone-500 mt-1">${f.notes || 'Central Master Festival record.'}</div>
+          </div>
+        `).join('');
+      }
+
+      document.getElementById('modalDayDrawer').classList.remove('hidden');
+    }
+
+    function closeDayDrawer() {
+      document.getElementById('modalDayDrawer').classList.add('hidden');
+    }
+
+    function openFestivalModalForDate(dateISO = null) {
+      closeDayDrawer();
+      openFestivalModal(dateISO || AppState.dayDrawerDate);
+    }
+
+    // 18. EXPORT / IMPORT ENGINE
+    function exportFestivalsJSON() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(AppState.festivals, null, 2));
+      const el = document.createElement('a');
+      el.setAttribute("href", dataStr);
+      el.setAttribute("download", `Swarnotsav_Master_Calendar_${AppState.selectedYear}_Backup.json`);
+      document.body.appendChild(el);
+      el.click();
+      el.remove();
+      showToast("JSON Backup exported.");
+    }
+
+    function exportFestivalsCSV() {
+      const yearFests = AppState.festivals.filter(f => f.year === AppState.selectedYear);
+      let csv = "Master_Key,Festival_Name,Mahotsav,Category,Priority,Date_Status,Start_Date,End_Date,Muhurat_Date,Notes\n";
+      yearFests.forEach(f => {
+        csv += `"${f.master_festival_key}","${f.name}","${f.mahotsav||''}","${f.category}","${f.priority}","${f.dateStatus}","${f.startDate}","${f.endDate||f.startDate}","${f.muhuratDate||f.startDate}","${(f.notes||'').replace(/"/g, '""')}"\n`;
+      });
+      const dataStr = "data:text/csv;charset=utf-8," + encodeURIComponent(csv);
+      const el = document.createElement('a');
+      el.setAttribute("href", dataStr);
+      el.setAttribute("download", `Swarnotsav_Festivals_${AppState.selectedYear}.csv`);
+      document.body.appendChild(el);
+      el.click();
+      el.remove();
+      showToast("CSV exported.");
+    }
+
+    function handleMasterSearch(query) {
+      if (!query.trim()) return;
+      navigate('list');
+      document.getElementById('listFilterSearch').value = query;
+      applyRegistryFilters();
+    }
+
+    function updateHeaderBadges() {
+      const todayISO = getTodayISO();
+      let dueRemCount = 0;
+      AppState.festivals.forEach(f => {
+        (f.reminders || []).forEach(r => {
+          const rDate = r.customDate || addDaysToISO(f.startDate, -r.daysBefore);
+          if (!r.done && daysDifference(todayISO, rDate) <= 0) dueRemCount++;
+        });
+      });
+
+      document.getElementById('headerRemBadge').textContent = dueRemCount;
+      document.getElementById('sideRemCount').textContent = dueRemCount;
+      document.getElementById('sideFestCount').textContent = AppState.festivals.filter(f => f.year === AppState.selectedYear).length;
+    }
+
+    function renderSidebarCategoryChips() {
+      const box = document.getElementById('sideCategoryChips');
+      if (!box) return;
+      box.innerHTML = Object.keys(AppState.categories).map(k => {
+        const cat = AppState.categories[k];
+        const count = AppState.festivals.filter(f => f.category === k && f.year === AppState.selectedYear).length;
+        return `
+          <div onclick="navigate('list'); document.getElementById('listFilterCategory').value='${k}'; applyRegistryFilters();" class="flex items-center justify-between px-2 py-1 rounded-lg hover:bg-white/5 cursor-pointer">
+            <div class="flex items-center gap-1.5 truncate">
+              <span class="w-2 h-2 rounded-full shrink-0" style="background:${cat.color}"></span>
+              <span class="text-gold-100/80 truncate">${cat.name}</span>
+            </div>
+            <span class="text-[10px] font-bold text-gold-400">${count}</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // INITIAL LAUNCH
+    window.addEventListener('DOMContentLoaded', () => {
+      initDatabase();
+      renderCurrentView();
+    });
+  </script>
+</body>
+</html>
